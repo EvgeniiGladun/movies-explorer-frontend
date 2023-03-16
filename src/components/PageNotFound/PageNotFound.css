@@ -1,0 +1,35 @@
+.not-found {
+  padding: 246px 0 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.not-found__title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 184px;
+}
+
+.not-found__error {
+  margin: 0;
+  margin-bottom: 5px;
+  font-weight: 400;
+  font-size: 140px;
+  line-height: 169px;
+}
+
+.not-found__text {
+  margin: 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.button {
+  color: rgba(66, 133, 244, 1);
+  text-decoration: none;
+}

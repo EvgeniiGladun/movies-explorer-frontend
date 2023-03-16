@@ -1,0 +1,137 @@
+.aboutme__container {
+  padding: 110px 70px 101px;
+}
+
+.aboutme__title {
+  margin: 0;
+  margin-bottom: 90px;
+  padding-bottom: 23px;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  border-bottom: 1px solid rgba(218, 218, 218, 1);
+}
+
+.aboutme__info {
+  display: flex;
+  margin-bottom: 100px;
+  justify-content: space-between;
+}
+
+.aboutme__biography {
+  margin: 0;
+  max-width: 600px;
+}
+
+.aboutme__biography-name {
+  margin: 0;
+  padding-bottom: 18px;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+}
+
+.aboutme__biography-specialization {
+  margin: 0;
+  padding-bottom: 26px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.aboutme__biography-description {
+  margin: 0;
+  padding-bottom: 100px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.aboutme__biography-link {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 1);
+}
+
+.aboutme__biography-link:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.aboutme__biography-photo {
+  border-radius: 10px;
+  height: 327px;
+}
+
+@media (max-width: 768px) {
+  .aboutme__container {
+    padding: 90px 50px;
+  }
+
+  .aboutme__info {
+    margin-bottom: 91px;
+  }
+
+  .aboutme__biography {
+    max-width: 364px;
+  }
+
+  .aboutme__biography-name {
+    font-size: 40px;
+    line-height: 40px;
+  }
+
+  .aboutme__biography-specialization {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .aboutme__biography-description {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .aboutme__biography-photo {
+    height: 307px;
+  }
+}
+
+@media (max-width: 320px) {
+  .aboutme__container {
+    padding: 70px 14px;
+  }
+
+  .aboutme__info {
+    flex-direction: column-reverse;
+    margin-bottom: 70px;
+  }
+
+  .aboutme__biography {
+    max-width: 364px;
+  }
+
+  .aboutme__biography-photo {
+    height: 352px;
+    margin-bottom: 40px;
+  }
+
+  .aboutme__biography-name {
+    font-size: 30px;
+    line-height: 36px;
+    padding-bottom: 20px;
+  }
+
+  .aboutme__biography-specialization {
+    font-size: 11px;
+    line-height: 16px;
+    padding-bottom: 20px;
+  }
+
+  .aboutme__biography-description {
+    font-size: 11px;
+    line-height: 16px;
+    padding-bottom: 40px;
+  }
+}

@@ -1,0 +1,19 @@
+@import url(./vendor/normalize.css);
+
+@import url(./vendor/fonts/fonts.css);
+
+.body {
+  background-color: rgba(32, 32, 32, 1);
+}
+
+.pages {
+  max-width: 1140px;
+  margin: 0 auto;
+  user-select: none;
+  font-family: Inter;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
