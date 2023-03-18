@@ -111,7 +111,7 @@
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 550px) {
   .techs__container {
     padding: 70px 14px;
   }

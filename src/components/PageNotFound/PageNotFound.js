@@ -1,16 +1,36 @@
-import React from 'react'
-import './PageNotFound.css';
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import './PageNotFound.css';
 
-function PageNotFound() {
+function PageNotFound({ hideHeaderAndFooter }) {
+
+    const history = createBrowserHistory();
+
+    // Показываем шапку и подвал и отправляем на главную
+    const showHeaderAndFooter = () => {
+        history.push('/');
+        return hideHeaderAndFooter(false);
+    }
+
+    useEffect(() => {
+
+        // Прячем `шапку` и `подвал`
+        hideHeaderAndFooter(true);
+    }, [])
+
     return (
-        <div className="not-found">
-            <h3 className="not-found__title">
-                <span className='not-found__error'>404</span>
-                <span className='not-found__text'>Страница не найдена</span>
-            </h3>
-            <Link className="button button_type_to-main" to="/">Назад</Link>
-        </div>
+        <>
+            <section className='not-found'>
+                <div className='not-found__container'>
+                    <div className='not-found__title'>
+                        <h2 className='not-found__error'>404</h2>
+                        <h4 className='not-found__text'>Страница не найдена</h4>
+                    </div>
+                    <Link onClick={showHeaderAndFooter} className='button button_type_to-main' to={''}>Назад</Link>
+                </div>
+            </section>
+        </>
     )
 }
 

@@ -8,6 +8,7 @@
 # testing
 /src/films.js
 /coverage
+/test.html
 
 # production
 /build

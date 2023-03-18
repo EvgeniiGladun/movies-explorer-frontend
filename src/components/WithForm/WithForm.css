@@ -27,6 +27,14 @@
   color: rgba(255, 255, 255, 1);
   background-color: rgba(66, 133, 244, 1);
   border-radius: 3px;
+  margin-bottom: 16px;
+}
+
+.form__btn-sends-authorization {
+  margin-top: 179px;
+}
+
+.form__btn-sends-register {
   margin-top: 69px;
 }
 
@@ -36,6 +44,7 @@
 }
 
 .form__authorization {
+  margin: 0;
   color: rgba(139, 139, 139, 1);
   font-weight: 400;
   font-size: 14px;
@@ -50,4 +59,39 @@
 
 .form__authorization-link:hover {
   color: rgba(66, 133, 244, 0.8);
+}
+
+@media (max-width: 768px) {
+  .form__container {
+    padding: 232px 0;
+  }
+}
+
+@media (max-width: 430px) {
+  .form__header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 80px;
+  }
+
+  .form__logo {
+    margin-bottom: 50px;
+  }
+
+  .form__container {
+    width: 260px;
+    margin: 0 auto;
+    padding: 56px 30px 30px;
+  }
+
+  .form__btn-sends-authorization {
+    margin-top: 267px;
+  }
+
+  .form__authorization {
+    font-size: 12px;
+    line-height: 15px;
+  }
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import './Profile.css';
 
 function Profile(props) {
@@ -13,21 +14,26 @@ function Profile(props) {
         <section className='profile'>
 
             <div className='profile__container'>
-                <h2 className='profile__greeting'>{`${props.greeting}, ${props.userName}!`}</h2>
 
                 <form onSubmit={submitFormUser} className='profile__form'>
-                    <div className='profile__form-input__container'>
-                        <label className='profile__form-label'>Имя</label>
-                        <input className='profile__form-input profile__form_user_name' id='input-name' type="text" placeholder='Ваше имя' defaultValue={props.userName} required />
-                    </div>
-                    <div className='profile__form-input__container'>
-                        <label className='profile__form-label'>E-mail</label>
-                        <input className='profile__form-input profile__form_user_email' id='input-email' type="email" placeholder='Ваша почта' defaultValue={props.userEmail} required />
+                    <div className='profile__form__container'>
+                        <h2 className='profile__greeting'>{`${props.greeting}, ${props.userName}!`}</h2>
+                        <div className='profile__form-input__container'>
+                            <label className='profile__form-label'>Имя</label>
+                            <input className='profile__form-input profile__form_user_name' id='input-name' type='text' placeholder='Ваше имя' defaultValue={props.userName} required />
+                        </div>
+                        <div className='profile__form-input__container'>
+                            <label className='profile__form-label'>E-mail</label>
+                            <input className='profile__form-input profile__form_user_email' id='input-email' type='email' placeholder='Ваша почта' defaultValue={props.userEmail} required />
+                        </div>
                     </div>
 
-                    <button className='profile__btn profile__btn-form'>{props.btnEditText}</button>
+                    <div className='profile__form-btn__container'>
+                        <button className='profile__btn profile__btn-form'>{props.btnEditText}</button>
+                        <Link to='/' className='profile__btn profile__btn-exit'>{props.btnExitText}</Link>
+                    </div>
                 </form>
-                <button className='profile__btn profile__btn-exit'>{props.btnExitText}</button>
+
             </div>
 
         </section>

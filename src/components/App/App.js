@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
@@ -20,9 +21,15 @@ function App() {
   const hideFooter = hideOnFooter.includes(location.pathname);
   const hideHeader = hideOnHeader.includes(location.pathname);
 
+  const [valueHideHeaderAndFooter, setValueHideHeaderAndFooter] = useState(false);
+
+  function hideHeaderAndFooter(value) {
+    return setValueHideHeaderAndFooter(value);
+  }
+
   return (
     <>
-      {hideHeader ? <></> : <Header />}
+      {hideHeader || valueHideHeaderAndFooter ? <></> : <Header />}
       <Routes>
         <Route path='/pagesavemovies' element={<PageSaveMovies />} />
         <Route path='/pagemovies' element={<PageMovies />} />
@@ -40,11 +47,11 @@ function App() {
             />}
         />
         <Route path='/' element={<Main />} />
-        <Route path='*' element={<PageNotFound />} />
+        <Route path='*' element={<PageNotFound hideHeaderAndFooter={hideHeaderAndFooter} />} />
       </Routes >
-      {hideFooter || hideHeader ? <></> : <Footer />}
+      {hideFooter || hideHeader || valueHideHeaderAndFooter ? <></> : <Footer />}
     </>
-  );
+  )
 }
 
 export default App;

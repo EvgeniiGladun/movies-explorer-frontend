@@ -1,5 +1,4 @@
 import React from 'react'
-import link from '../../../images/portfolio/link/linkImg.svg';
 import './Portfolio.css';
 
 function Portfolio() {
@@ -10,16 +9,16 @@ function Portfolio() {
                     <h4 className='portfolio-links__name'>Портфолио</h4>
                     <ul className='portfolio-links__items'>
                         <li className='portfolio-links__item'>
-                            <a href='/' className='portfolio-links__link'>Статичный сайт</a>
-                            <img className='portfolio-links__link-img' src={link} alt='Ссылка' />
+                            <a href='https://evgeniigladun.github.io/release-how-to-learn/' className='portfolio-links__link' target='_blank' rel='noreferrer'>Статичный сайт</a>
+                            <h4 className='portfolio-links__link-arrow'>&#8599;</h4>
                         </li>
                         <li className='portfolio-links__item'>
-                            <a href='/' className='portfolio-links__link'>Адаптивный сайт</a>
-                            <img className='portfolio-links__link-img' src={link} alt='Ссылка' />
+                            <a href='https://evgeniigladun.github.io/REACT-MESTO-AUTH/' className='portfolio-links__link' target='_blank' rel='noreferrer'>Адаптивный сайт</a>
+                            <h4 className='portfolio-links__link-arrow'>&#8599;</h4>
                         </li>
                         <li className='portfolio-links__item'>
-                            <a href='/' className='portfolio-links__link'>Одностраничное приложение</a>
-                            <img className='portfolio-links__link-img' src={link} alt='Ссылка' />
+                            <a href='https://photograms.nomoredomainsclub.ru/' className='portfolio-links__link' target='_blank' rel='noreferrer'>Одностраничное приложение</a>
+                            <h4 className='portfolio-links__link-arrow'>&#8599;</h4>
                         </li>
                     </ul>
                 </div>

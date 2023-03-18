@@ -1,14 +1,14 @@
 /* Стили контайнера карточек */
 .cards {
-  padding: 70px 70px 10px;
+  padding: 70px 0 10px;
   display: grid;
-  grid-template-columns: repeat(4, 270px);
+  grid-template-columns: repeat(auto-fill, min(270px));
   grid-template-rows: 230px;
   gap: 38px 20px;
 }
 
 .cards-next {
-  padding: 50px 70px 80px;
+  padding: 50px 0 80px;
 }
 
 .cards-next__btn-next {
@@ -53,7 +53,7 @@
 
 @media (max-width: 740px) {
   .cards {
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(1, auto);
   }
 
   .cards-next {

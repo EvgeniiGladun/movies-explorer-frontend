@@ -4,13 +4,14 @@
   width: 100vw;
   height: 100vh;
   right: 0;
+  top: -5px;
 }
 
 .navigation__container_color_shadow {
   position: absolute;
   width: 100vw;
   height: 100vh;
-  top: -18px;
+  top: 6px;
   background-color: rgba(24, 24, 24, 0.8);
 }
 
@@ -68,6 +69,7 @@
 }
 
 .navigation__link_active {
+  padding-bottom: 4px;
   border-bottom: 1px solid white;
 }
 
@@ -86,5 +88,11 @@
     height: 100%;
     max-width: 100%;
     padding: 144px 10px 48px;
+  }
+}
+
+@media (max-width: 630px) {
+  .navigation {
+    top: 0;
   }
 }

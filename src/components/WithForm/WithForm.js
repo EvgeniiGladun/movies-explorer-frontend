@@ -4,19 +4,25 @@ import './WithForm.css';
 import logo from '../../images/logo/logo.svg';
 
 function WithForm(props) {
+
+    const submitForm = (evt) => {
+        evt.preventDefault();
+        alert('Форма отправлена')
+    }
+
     return (
         <section
             className={`form form-${props.className}`}
         >
             <div className='form__container'>
                 <div className='form__header'>
-                    <Link to='/'><img className='form__logo' src={logo} alt="Логотип" /></Link>
+                    <Link to='/'><img className='form__logo' src={logo} alt='Логотип' /></Link>
                     <h2 className='form__greeting'>{props.title}</h2>
                 </div>
 
-                <form className='form__content'>
+                <form onSubmit={submitForm} className='form__content'>
                     {props.children}
-                    <button className='form__btn-sends' type='submit'>
+                    <button className={`form__btn-sends form__btn-sends-${props.className}`} type='submit'>
                         {props.buttonText}
                     </button>
                 </form>

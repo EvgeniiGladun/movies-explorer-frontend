@@ -20,9 +20,9 @@ function Header() {
     // Добавление / удаление вызова функций 
     React.useEffect(() => {
         const handleResizeWindow = () => setWidth(window.innerWidth);
-        window.addEventListener("resize", handleResizeWindow);
+        window.addEventListener('resize', handleResizeWindow);
         return () => {
-            window.removeEventListener("resize", handleResizeWindow);
+            window.removeEventListener('resize', handleResizeWindow);
         };
     }, []);
 
@@ -34,11 +34,12 @@ function Header() {
     return currentLocation ? (
         <header className={`header ${currentLocation && isOpenMainPage ? 'header_color_grey' : ''}`}>
             <div className='header__container'>
-                <Link to='/'><img className='header__logo' src={logo} alt='Логотип' /></Link>
+
+                <a href='#about-project'><img className='header__logo' src={logo} alt='Логотип' /></a>
 
                 <nav className='header__menu'>
-                    <NavLink to="signup" className='header__link'>Регистрация</NavLink>
-                    <NavLink to="signin" className='header__link header__link-btn header__link-btn_color_green'>Войти</NavLink>
+                    <NavLink to='signup' className='header__link'>Регистрация</NavLink>
+                    <NavLink to='signin' className='header__link header__link-btn header__link-btn_color_green'>Войти</NavLink>
                 </nav>
             </div>
         </header>
@@ -46,18 +47,18 @@ function Header() {
         <header className={`header`}>
             <div className='header__container'>
 
-                <div className="header__menu__container">
-                    <Link to="/"><img className='header__logo' src={logo} alt='Логотип' /></Link>
+                <div className='header__menu__container'>
+                    <Link to='/'><img className='header__logo' src={logo} alt='Логотип' /></Link>
                     <nav className='header__menu-movies'>
-                        <NavLink to="pagemovies" className='header__link header__link-movies'>Фильмы</NavLink>
-                        <NavLink to="pagesavemovies" className='header__link'>Сохранённые фильмы</NavLink>
+                        <NavLink to='pagemovies' className='header__link header__link-movies'>Фильмы</NavLink>
+                        <NavLink to='pagesavemovies' className='header__link'>Сохранённые фильмы</NavLink>
                     </nav>
                 </div>
 
                 <nav className='header__menu-profile'>
-                    <NavLink to="profile" className='header__link header__link-profile'>Аккаунт</NavLink>
+                    <NavLink to='profile' className='header__link header__link-profile'>Аккаунт</NavLink>
                     <div className='header__profile__container'>
-                        <img className='header__profile__avatar' src={avatar} alt="Аватар профиля" />
+                        <img className='header__profile__avatar' src={avatar} alt='Аватар профиля' />
                     </div>
                 </nav>
 
@@ -66,7 +67,7 @@ function Header() {
     ) : (
         <header className='header-mobile'>
             <div className='header-mobile__container'>
-                <Link className='header-mobile__logo' to="/"><img className='header-mobile__logo' src={logo} alt='Логотип' /></Link>
+                <Link className='header-mobile__logo' to='/'><img className='header-mobile__logo' src={logo} alt='Логотип' /></Link>
                 <div onClick={() => { setIsOpenBurger(isOpenBurger !== true) }} className='burger-menu'>
                     {
                         isOpenBurger ? <button className='burger-menu__btn-close'>+</button>

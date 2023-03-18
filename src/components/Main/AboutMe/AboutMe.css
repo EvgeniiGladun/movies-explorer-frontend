@@ -20,6 +20,7 @@
 
 .aboutme__biography {
   margin: 0;
+  margin-right: 30px;
   max-width: 600px;
 }
 
@@ -61,6 +62,8 @@
 }
 
 .aboutme__biography-photo {
+  object-fit: cover;
+  object-position: 50% 50%;
   border-radius: 10px;
   height: 327px;
 }
@@ -98,7 +101,7 @@
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 550px) {
   .aboutme__container {
     padding: 70px 14px;
   }

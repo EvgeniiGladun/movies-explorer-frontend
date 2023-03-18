@@ -17,9 +17,10 @@
 
 .portfolio-links__item {
   display: flex;
-  justify-content: space-between;
-  list-style-type: none;
   border-bottom: 1px solid rgba(66, 66, 66, 1);
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
   padding: 20px 0;
 }
 
@@ -38,6 +39,14 @@
   font-weight: 400;
   font-size: 30px;
   line-height: 50px;
+}
+
+.portfolio-links__link-arrow {
+  margin: 0;
+  text-align: center;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 60px;
 }
 
 .portfolio-links__link:hover {
@@ -72,6 +81,11 @@
   }
 
   .portfolio-links__link {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .portfolio-links__link-arrow {
     font-size: 18px;
     line-height: 28px;
   }
