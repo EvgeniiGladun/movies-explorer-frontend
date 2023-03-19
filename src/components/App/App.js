@@ -30,25 +30,27 @@ function App() {
   return (
     <>
       {hideHeader || valueHideHeaderAndFooter ? <></> : <Header />}
-      <Routes>
-        <Route path='/pagesavemovies' element={<PageSaveMovies />} />
-        <Route path='/pagemovies' element={<PageMovies />} />
-        <Route path='/signin' element={<Login />} />
-        <Route path='/signup' element={<Register />} />
-        <Route
-          path='/profile'
-          element={
-            <Profile
-              greeting='Привет'
-              userName='Виталий'
-              userEmail='pochta@yandex.ru'
-              btnEditText='Редактировать'
-              btnExitText='Выйти из аккаунта'
-            />}
-        />
-        <Route path='/' element={<Main />} />
-        <Route path='*' element={<PageNotFound hideHeaderAndFooter={hideHeaderAndFooter} />} />
-      </Routes >
+      <main className='main-content'>
+        <Routes>
+          <Route path='/pagesavemovies' element={<PageSaveMovies />} />
+          <Route path='/pagemovies' element={<PageMovies />} />
+          <Route path='/signin' element={<Login />} />
+          <Route path='/signup' element={<Register />} />
+          <Route
+            path='/profile'
+            element={
+              <Profile
+                greeting='Привет'
+                userName='Виталий'
+                userEmail='pochta@yandex.ru'
+                btnEditText='Редактировать'
+                btnExitText='Выйти из аккаунта'
+              />}
+          />
+          <Route path='/' element={<Main />} />
+          <Route path='*' element={<PageNotFound hideHeaderAndFooter={hideHeaderAndFooter} />} />
+        </Routes >
+      </main>
       {hideFooter || hideHeader || valueHideHeaderAndFooter ? <></> : <Footer />}
     </>
   )

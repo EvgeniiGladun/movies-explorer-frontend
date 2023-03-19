@@ -35,7 +35,7 @@ function Header() {
         <header className={`header ${currentLocation && isOpenMainPage ? 'header_color_grey' : ''}`}>
             <div className='header__container'>
 
-                <a href='#about-project'><img className='header__logo' src={logo} alt='Логотип' /></a>
+                <a className='header__logo-link' href='#about-project'><img className='header__logo' src={logo} alt='Логотип' /></a>
 
                 <nav className='header__menu'>
                     <NavLink to='signup' className='header__link'>Регистрация</NavLink>

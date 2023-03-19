@@ -9,7 +9,7 @@ function Register() {
                 <WithForm
                     className='register'
                     title='Добро пожаловать!'
-                    buttonText='Зарегестрироваться'
+                    buttonText='Зарегистрироваться'
                     authText='Уже зарегистрированы?'
                     authLinkText='Войти'
                     authLink='/signin'

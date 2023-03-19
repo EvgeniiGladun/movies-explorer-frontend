@@ -6,13 +6,18 @@
 .promo__container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding-bottom: 84px;
+}
+
+.promo__logo {
+  width: 100%;
+  max-width: 310px;
 }
 
 .promo__info {
   margin: 0;
   max-width: 640px;
-  display: table-column;
 }
 
 .promo__title > p.promo__title {
@@ -63,17 +68,13 @@
   }
 
   .promo__container {
+    max-width: 680px;
     flex-direction: column-reverse;
     padding-bottom: 92px;
   }
 
   .promo__logo {
-    max-width: 310px;
     margin: 0 auto 48px;
-  }
-
-  .promo__info {
-    max-width: 680px;
   }
 
   .promo__title {
@@ -95,21 +96,21 @@
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 550px) {
   .promo {
     padding: 70px 10px 30px;
   }
+}
 
+@media (max-width: 320px) {
   .promo__logo {
     max-width: 210px;
   }
 
   .promo__container {
     padding-bottom: 80px;
-  }
-
-  .promo__info {
     max-width: 300px;
+    width: 100%;
   }
 
   .promo__title {

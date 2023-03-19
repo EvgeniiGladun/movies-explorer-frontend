@@ -115,7 +115,9 @@
   .techs__container {
     padding: 70px 14px;
   }
+}
 
+@media (max-width: 320px) {
   .techs__discription-container {
     max-width: 292px;
   }

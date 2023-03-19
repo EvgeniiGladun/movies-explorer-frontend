@@ -112,11 +112,13 @@
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 550px) {
   .about-project__container {
     padding: 70px 18px;
   }
+}
 
+@media (max-width: 320px) {
   .about-project__discription-container {
     flex-direction: column;
     padding-bottom: 60px;

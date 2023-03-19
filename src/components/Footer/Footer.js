@@ -8,8 +8,8 @@ function Footer() {
             <div className='footer__container'>
                 <h4 className='footer__discription'>Учебный проект Яндекс.Практикум х BeatFilm.</h4>
                 <div className='footer__info'>
-                    <div className='footer__discription_content_copyright'>
-                        <p>&copy; 2023</p>
+                    <div className='footer__discriptions footer__discriptions_content_copyright'>
+                        <p className='footer__discriptions-years'>&copy; 2023</p>
                     </div>
                     <ul className='footer__discription-items'>
                         <li className='footer__discription-item'>

@@ -10,9 +10,9 @@ function Layout(props) {
     return (
         <>
             <SearchForm />
-            <main className='cards'>
+            <section className='cards'>
                 {props.children}
-            </main>
+            </section>
 
             {currentLocation ? <div className='cards-next'>
                 <button className='cards-next__btn-next'>Ещё</button>

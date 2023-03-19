@@ -1,6 +1,6 @@
 /* Стили контайнера карточек */
 .cards {
-  padding: 70px 0 10px;
+  padding: 70px 70px 10px;
   display: grid;
   grid-template-columns: repeat(auto-fill, min(270px));
   grid-template-rows: 230px;
@@ -8,7 +8,7 @@
 }
 
 .cards-next {
-  padding: 50px 0 80px;
+  padding: 50px 70px 80px;
 }
 
 .cards-next__btn-next {

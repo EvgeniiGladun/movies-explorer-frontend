@@ -14,7 +14,6 @@
 
 .aboutme__info {
   display: flex;
-  margin-bottom: 100px;
   justify-content: space-between;
 }
 
@@ -73,10 +72,6 @@
     padding: 90px 50px;
   }
 
-  .aboutme__info {
-    margin-bottom: 91px;
-  }
-
   .aboutme__biography {
     max-width: 364px;
   }
@@ -108,11 +103,11 @@
 
   .aboutme__info {
     flex-direction: column-reverse;
-    margin-bottom: 70px;
   }
 
   .aboutme__biography {
-    max-width: 364px;
+    max-width: 100%;
+    margin: 0;
   }
 
   .aboutme__biography-photo {
