@@ -87,12 +87,6 @@
   opacity: 0.8;
 }
 
-@media (max-width: 830px) {
-  .techs__languages-collection {
-    grid-template-rows: repeat(2, 60px);
-  }
-}
-
 @media (max-width: 768px) {
   .techs__container {
     padding: 90px 60px;
@@ -117,6 +111,10 @@
     max-width: 460px;
   }
 
+  .techs__languages-collection {
+    grid-template-columns: repeat(auto-fit, 84px);
+  }
+
   .techs__languages-item {
     width: 84px;
     height: 57px;
@@ -130,7 +128,7 @@
 
 @media (max-width: 700px) {
   .techs__container {
-    padding: 70px 14px;
+    padding: 70px 50px;
   }
 }
 
