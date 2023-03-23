@@ -2,12 +2,6 @@
 
 @import url(./vendor/fonts/fonts.css);
 
-* {
-  outline-width: 1px;
-  outline-style: solid;
-  outline-color: red;
-}
-
 .body {
   background-color: rgba(32, 32, 32, 1);
 }
@@ -16,7 +10,7 @@
   max-width: 1280px;
   margin: 0 auto;
   user-select: none;
-  font-family: Inter;
+  font-family: "Inter", sans-serif;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
   -moz-text-size-adjust: 100%;

@@ -16,13 +16,18 @@ function WithForm(props) {
         >
             <div className='form__container'>
                 <div className='form__header'>
-                    <Link to='/'><img className='form__logo' src={logo} alt='Логотип' /></Link>
+                    <Link className='form__logo-link' to='/'>
+                        <img className='form__logo' src={logo} alt='Логотип' />
+                    </Link>
                     <h2 className='form__greeting'>{props.title}</h2>
                 </div>
 
                 <form onSubmit={submitForm} className='form__content'>
                     {props.children}
-                    <button className={`form__btn-sends form__btn-sends-${props.className}`} type='submit'>
+                    <button
+                        className={`form__btn-sends form__btn-sends-${props.className}`}
+                        type='submit'
+                    >
                         {props.buttonText}
                     </button>
                 </form>

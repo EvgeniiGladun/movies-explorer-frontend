@@ -49,6 +49,7 @@
   display: flex;
   justify-content: space-between;
   margin: auto 0;
+  max-height: 32px;
 }
 
 .header__button:hover {
@@ -65,6 +66,17 @@
   line-height: 16px;
 }
 
+.header__link:hover {
+  opacity: 0.8;
+}
+
+.header__link-login > .header__link-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(0, 0, 0, 1);
+}
+
 .header__link-movies {
   margin-right: 16px;
 }
@@ -73,15 +85,12 @@
   margin-right: 13px;
 }
 
-.header__link:hover {
-  opacity: 0.8;
-}
-
 .header__link-btn {
   text-align: center;
-  width: 76px;
-  color: rgba(0, 0, 0, 1);
   border-radius: 3px;
+  border: none;
+  width: 76px;
+  height: 32px;
 }
 
 .header__link-btn_color_green {
@@ -164,7 +173,7 @@
   }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 700px) {
   .header {
     padding: 18px 14px;
   }
@@ -193,5 +202,6 @@
 
   .header__link-btn {
     width: 54px;
+    height: 26px;
   }
 }

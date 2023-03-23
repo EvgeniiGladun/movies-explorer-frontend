@@ -39,7 +39,9 @@ function Header() {
 
                 <nav className='header__menu'>
                     <NavLink to='signup' className='header__link'>Регистрация</NavLink>
-                    <NavLink to='signin' className='header__link header__link-btn header__link-btn_color_green'>Войти</NavLink>
+                    <NavLink to='signin' className='header__link header__link-login'>
+                        <div className='header__link-btn header__link-btn_color_green'>Войти</div>
+                    </NavLink>
                 </nav>
             </div>
         </header>
