@@ -1,0 +1,27 @@
+.authorization__inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.authorization__label {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  padding-bottom: 10px;
+  color: rgba(139, 139, 139, 1);
+}
+
+.authorization__input {
+  height: 46px;
+  outline: none;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 0 15px;
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(47, 47, 47, 1);
+}
+
+.authorization__input:last-of-type {
+  margin: 0;
+}
