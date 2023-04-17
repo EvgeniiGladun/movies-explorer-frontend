@@ -1,7 +1,8 @@
+import './Layout.css';
 import React from 'react'
 import { useLocation } from 'react-router-dom';
-import './Layout.css';
 import SearchForm from '../Movies/SearchForm/SearchForm'
+import Preloader from '../Movies/Preloader/Preloader';
 
 function Layout(props) {
 
@@ -9,14 +10,22 @@ function Layout(props) {
 
     return (
         <>
-            <SearchForm />
-            <section className='cards'>
-                {props.children}
-            </section>
+            <SearchForm
+                usersSearchRequest={props.usersSearchRequest}
+            />
+            {props.preloader
+                ? <Preloader />
+                : <section className={`cards ${props.showBlockCards ? '' : 'cards_block_hide'}`}>
+                    {props.children}
+                </section>}
 
-            {currentLocation ? <div className='cards-next'>
-                <button className='cards-next__btn-next'>Ещё</button>
-            </div> : ''}
+            {
+                currentLocation
+                    ? <div className='cards-next cards-next_block_hide'>
+                        <button className='cards-next__btn-next'>Ещё</button>
+                    </div>
+                    : ''
+            }
         </>
     )
 }

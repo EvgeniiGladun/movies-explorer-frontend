@@ -1,0 +1,1 @@
+export const cardsTable = document.querySelectorAll('.cards');

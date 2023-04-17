@@ -1,0 +1,1 @@
+export const valueInput = document.getElementById('searchform-input-movies')
