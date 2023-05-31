@@ -17,7 +17,7 @@ class MoviesApi {
         })
             .then((res) => { return this._getResponseData(res) })
             .then((data) => { return data })
-            .catch((err) => { return console.log(err) });
+            .catch((err) => { err });
     }
 
 }

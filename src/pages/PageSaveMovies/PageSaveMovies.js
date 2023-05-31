@@ -7,7 +7,10 @@ function PageSaveMovies(props) {
         <>
             <Layout
                 preloader={props.preloader}
-                getMoviesList={props.getMoviesList}
+                moviesList={props.moviesList}
+                getErrorMovies={props.getErrorMovies}
+                usersSearchRequest={props.usersSearchRequest}
+                showBlockCards={props.showBlockCards}
             >
                 <div className='card'>
                     <img className='card__afisha' src={props.previewUrl} alt={props.title} />

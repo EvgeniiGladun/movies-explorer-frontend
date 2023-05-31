@@ -47,6 +47,34 @@
   outline: 1.5px solid rgb(23, 23, 23, 1);
 }
 
+.nothing-found {
+  display: flex;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 350px;
+  width: 100%;
+  max-height: 230px;
+  height: 100vh;
+  border-radius: 10px;
+  background: rgb(46, 46, 46);
+}
+
+.nothing-found__text_error {
+  color: rgba(238, 52, 101, 1);
+}
+
+.nothing-found__text_error:nth-child(2) {
+  margin: 10px 0;
+}
+
+.nothing-found_hide {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .cards {
     padding: 70px 30px 10px;

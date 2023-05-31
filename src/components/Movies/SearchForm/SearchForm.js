@@ -1,12 +1,16 @@
 import './SearchForm.css';
-import { React } from 'react'
+import { React, useState } from 'react'
+import { useLocation } from 'react-router-dom';
 import lens from '../../../images/searchform/magnifier.svg';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 function SearchForm(props) {
+    const location = useLocation().pathname.toLocaleLowerCase();
+    const [checkBoxStat, setCheckBoxStat] = useState(true);
 
-    // Отправка запроса на фильм
+    // Проверка чекбокса
     const checkboxStatus = (status) => {
+        setCheckBoxStat(status);
         return status;
     }
 
@@ -14,12 +18,20 @@ function SearchForm(props) {
     const submitRequestMovies = (evt) => {
         const valueInput = document.getElementById('searchform-input-movies');
 
-        console.log(checkboxStatus())
+        evt.preventDefault();
+        if (!checkValidationRequest()) {
+            return;
+        } return props.usersSearchRequest(valueInput.value);
+    }
+
+    // Отправка запроса на сохраненные фильмы
+    const submitRequestSaveMovies = (evt) => {
+        const valueInput = document.getElementById('searchform-input-movies');
 
         evt.preventDefault();
         if (!checkValidationRequest()) {
             return;
-        } return props.usersSearchRequest(valueInput.value, checkboxStatus());
+        } return props.usersSearchRequest(valueInput.value);
     }
 
     // Проверка пустого запроса
@@ -41,7 +53,7 @@ function SearchForm(props) {
         <section className='searchform'>
             <div className='searchform__container'>
 
-                <form onSubmit={submitRequestMovies} className='searchform__form'>
+                <form onSubmit={location === '/pagemovies' ? submitRequestMovies : submitRequestSaveMovies} className='searchform__form'>
                     <div className='searchform__form__container'>
                         <div className='searchform__form-input__container'>
                             <input

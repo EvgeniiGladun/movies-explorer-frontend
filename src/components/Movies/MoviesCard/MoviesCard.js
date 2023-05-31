@@ -2,7 +2,7 @@ import React from 'react'
 import './MoviesCard.css';
 const IMG_URL = 'https://api.nomoreparties.co';
 
-function MoviesCard(props) {
+function MoviesCard({ hendlerMoviesLike, ...props }) {
 
     const checkLike = (evt) => {
         return evt.target.firstChild
@@ -18,7 +18,7 @@ function MoviesCard(props) {
                 </a>
                 <div className='card__discription'>
                     <h3 className='card__title'>{props.nameRU}</h3>
-                    <button onClick={checkLike} className='card__like-btn'>
+                    <button onClick={hendlerMoviesLike} className='card__like-btn'>
                         <div className='card__like-heart'></div>
                     </button>
                 </div>
