@@ -1,6 +1,7 @@
 class MainApi {
-    constructor({ baseUrl, headers, credentials }) {
+    constructor({ baseUrl, baseUrlMovies, headers, credentials }) {
         this.baseUrl = baseUrl;
+        this.baseUrlMovies = baseUrlMovies;
         this.headers = headers;
         this.credentials = credentials;
     }
@@ -116,22 +117,24 @@ class MainApi {
         });
     }
 
-    setAddNewMovies(...dataMovies) {
+    setAddNewMovies(dataMovies) {
+
         return fetch(this.baseUrl + "/movies", {
             method: "POST",
             headers: this.headers,
+            credentials: this.credentials,
             body: JSON.stringify({
                 country: dataMovies.country,
                 director: dataMovies.director,
                 duration: dataMovies.duration,
                 year: dataMovies.year,
                 description: dataMovies.description,
-                image: dataMovies.image,
-                trailer: dataMovies.trailer,
+                image: this.baseUrlMovies + dataMovies.image.url,
+                trailerLink: dataMovies.trailerLink,
                 nameRU: dataMovies.nameRU,
                 nameEN: dataMovies.nameEN,
-                thumbnail: dataMovies.thumbnail,
-                movieId: dataMovies.movieId,
+                thumbnail: this.baseUrlMovies + dataMovies.image.url,
+                movieId: dataMovies.id
             }),
         }).then((res) => {
             return this._getResponseData(res);
@@ -142,13 +145,10 @@ class MainApi {
         return fetch(this.baseUrl + "/movies/" + movieId, {
             method: "DELETE",
             headers: this.headers,
+            credentials: this.credentials,
         }).then((res) => {
             return this._getResponseData(res);
         });
-    }
-
-    changeLikeCardStatus(movieId, isLiked) {
-        return isLiked ? this.pushLike(movieId) : this.deleteLike(movieId);
     }
 
 }
@@ -157,6 +157,7 @@ class MainApi {
 // Делаем запрос по api для получения информации
 const apiMain = new MainApi({
     baseUrl: "http://localhost:3000",
+    baseUrlMovies: 'https://api.nomoreparties.co',
     credentials: "include",
     headers: {
         "Content-Type": "application/json",

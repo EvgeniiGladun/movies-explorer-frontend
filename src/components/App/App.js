@@ -29,10 +29,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const requestUserHistory = localStorage.getItem('requestUser');
   const moviesUserHistory = localStorage.getItem('moviesUser');
-  const switchUser = localStorage.getItem('switchStatus');
   const [requestUserSerch, setRequestUserSerch] = useState(requestUserHistory ? requestUserHistory : '');
   const [moviesHistory, setMoviesHistory] = useState(moviesUserHistory ? moviesUserHistory : []);
-  const [switchUserStatus, setSwitchUserStatus] = useState(switchUser);
   const [loggedIn, setLoggedIn] = useState(false);
 
   const [valueHideHeaderAndFooter, setValueHideHeaderAndFooter] = useState(false);
@@ -40,6 +38,7 @@ function App() {
   const [dataMovies, setDataMovies] = useState([]);
   const [dataUserMovies, setDataUserMovies] = useState([]);
   const [cards, setCards] = useState([]);
+  const [card, setCard] = useState({});
   const [showBlockCards, setShowBlockCards] = useState(false);
   const [showBlockErr, setShowBlockErr] = useState(false);
   const [getErrorMovies, setGetErrorMovies] = useState(false);
@@ -53,7 +52,6 @@ function App() {
       .getAuthenticationUser()
       .then((res) => {
         if (res) {
-
           setLoggedIn(true);
           navigate('/pagemovies');
         }
@@ -81,18 +79,24 @@ function App() {
 
   // Отправка запроса на фильм
   const getMoviesList = () => {
+    const switchUser = localStorage.getItem('switchStatus');
     setPreloader(true);
     setShowBlockErr(false);
     setShowBlockCards(true);
+    console.log(switchUser)
 
     apiOther
       .getMoviesList()
       .then((moviesList) => {
         let arrayMovies = [];
+        let arrayMoviesSmail = [];
 
         moviesList.forEach((movie) => {
           if (movie.nameRU.toLowerCase().includes(requestUser)
             || movie.nameEN.toLowerCase().includes(requestUser)) {
+            if (switchUser && movie.duration < 40) {
+              return arrayMoviesSmail.push(movie);
+            }
             return arrayMovies.push(movie);
           };
         })
@@ -100,13 +104,14 @@ function App() {
           setShowBlockCards(false);
           setGetErrorMovies(false);
           setShowBlockErr(true);
+          setDataMovies([]);
           return;
         }
-        console.log(arrayMovies)
+
         localStorage.setItem('moviesUser', JSON.stringify(arrayMovies));
         localStorage.setItem('requestUser', requestUser);
         // Записываем массив из фильмов в стейт переменную
-        setDataMovies(arrayMovies);
+        setDataMovies(switchUser == "true" ? arrayMoviesSmail : arrayMovies);
       })
       .then(() => setPreloader(false))
       .catch((err) => {
@@ -133,8 +138,43 @@ function App() {
     return getMoviesList();
   }
 
-  const hendlerMoviesLike = () => {
+  const hendlerMoviesLike = (movies, isLiked) => {
+
+    if (!isLiked) {
+      // Отправляем запрос в API для удаления фильма
+      apiMain
+        .deleteMovies(dataUserMovies.find(i => i.movieId === movies.id)._id)
+        .then(() => {
+          setDataUserMovies(dataUserMovies.filter((arrCards) => arrCards._id !== movies._id));
+        })
+        .catch((err) => {
+          console.log(err); // выведем ошибку в консоль
+        });
+    } else {
+      // Отправляем запрос в API и получаем обновлённые данные фильма
+      apiMain
+        .setAddNewMovies(movies)
+        .then((arrNewMovies) => {
+          setDataUserMovies([arrNewMovies, ...dataUserMovies]);
+        })
+        .catch((err) => {
+          console.log(err); // выведем ошибку в консоль
+        });
+    }
   };
+
+  function hendlerMoviesDelete(movies) {
+
+    // Отправляем запрос в API для удаления фильма
+    apiMain
+      .deleteMovies(movies._id)
+      .then(() => {
+        setDataUserMovies(dataUserMovies.filter((arrCards) => arrCards._id !== movies._id));
+      })
+      .catch((err) => {
+        console.log(err); // выведем ошибку в консоль
+      });
+  }
 
   const handleAddPlaceSubmit = (dataAddMovie) => {
 
@@ -216,10 +256,12 @@ function App() {
                     dataUserMovies={dataUserMovies
                       ? dataUserMovies
                       : []}
+                    card={card}
                     preloader={preloader}
                     getErrorMovies={getErrorMovies}
                     showBlockErr={showBlockErr}
                     showBlockCards={showBlockCards}
+                    hendlerMoviesDelete={hendlerMoviesDelete}
                     usersSearchRequest={handleTypeUser}
                   />}
               />
@@ -228,9 +270,13 @@ function App() {
                 element={
                   <PageMovies
                     hendlerMoviesLike={hendlerMoviesLike}
+                    dataUserMovies={dataUserMovies
+                      ? dataUserMovies
+                      : []}
                     moviesList={dataMovies
                       ? dataMovies
                       : []}
+                    card={card}
                     preloader={preloader}
                     showBlockCards={showBlockCards}
                     showBlockErr={showBlockErr}

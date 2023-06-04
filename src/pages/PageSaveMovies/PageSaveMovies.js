@@ -19,8 +19,11 @@ function PageSaveMovies(props) {
                         ? props.dataUserMovies.map((movie) => {
                             return (
                                 <MoviesCard
+                                    movie={movie}
                                     hendlerMoviesLike={props.hendlerMoviesLike}
                                     handleAddPlaceSubmit={props.handleAddPlaceSubmit}
+                                    hendlerMoviesDelete={props.hendlerMoviesDelete}
+                                    dataUserMovies={props.dataUserMovies}
                                     key={movie._id}
                                     {...movie}
                                 />

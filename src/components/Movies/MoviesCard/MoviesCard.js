@@ -1,16 +1,40 @@
-import { React, useState, useEffect } from 'react'
+import { userContex } from '../../../contexts/CurrentUserContext';
+
+import { React, useState, useEffect, useContext, useMemo } from 'react'
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
 const IMG_URL = 'https://api.nomoreparties.co';
 
-function MoviesCard({ hendlerMoviesLike, ...props }) {
+function MoviesCard({ movie, card, dataUserMovies, hendlerMoviesDelete, hendlerMoviesLike, ...props }) {
     const location = useLocation();
+    const currentUser = useContext(userContex);
     const [duration, setDuratiion] = useState('');
     const showCross = ['/pagesavemovies'].includes(location.pathname);
 
     useEffect(() => {
         timeDuration();
     }, [])
+
+    const isLiked = useMemo(() => {
+        return !!dataUserMovies?.some((i) => i.movieId === movie.id);
+    }, [dataUserMovies, movie])
+
+    // Создаём переменную, которую после зададим в `className` для кнопки лайка
+    const moviesLikeButton = (
+        `card__like-heart ${isLiked ? 'card__like-heart-active' : ''}`
+    );
+
+    function handleLikeClick(evt) {
+        // Проверяем окрас лайка
+        evt.target.firstChild
+            ? evt.target.firstChild.classList.toggle('card__like-heart-active')
+            : evt.target.classList.toggle('card__like-heart-active');
+        hendlerMoviesLike(props, !isLiked);
+    }
+
+    function handleDeleteClick() {
+        hendlerMoviesDelete(props);
+    }
 
     const timeDuration = () => {
         let hour = Math.floor(props.duration / 60) + ' ч';
@@ -19,12 +43,6 @@ function MoviesCard({ hendlerMoviesLike, ...props }) {
         }
         let min = (props.duration % 60) + ' мин';
         setDuratiion(`${hour} ${min}`);
-    }
-
-    const checkLike = (evt) => {
-        return evt.target.firstChild
-            ? evt.target.firstChild.classList.toggle('card__like-heart-active')
-            : evt.target.classList.toggle('card__like-heart-active');
     }
 
     return (
@@ -37,11 +55,11 @@ function MoviesCard({ hendlerMoviesLike, ...props }) {
                     <h3 className='card__title'>{props.nameRU}</h3>
                     {
                         showCross
-                            ? <button onClick={() => { console.log('Запрос на удлаение отправлен') }} className='card__delete-btn'>
+                            ? <button onClick={handleDeleteClick} className='card__delete-btn'>
                                 <span className='card__delete-cross'>+</span>
                             </button>
-                            : <button onClick={hendlerMoviesLike} className='card__like-btn'>
-                                <div className='card__like-heart'></div>
+                            : <button onClick={handleLikeClick} className='card__like-btn'>
+                                <div className={moviesLikeButton}></div>
                             </button>
                     }
                 </div>

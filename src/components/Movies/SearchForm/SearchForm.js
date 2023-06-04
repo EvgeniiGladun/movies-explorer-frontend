@@ -11,7 +11,7 @@ function SearchForm(props) {
     // Проверка чекбокса
     const checkboxStatus = (status) => {
         setCheckBoxStat(status);
-        localStorage.setItem('switchStatus', JSON.stringify(status));
+        localStorage.setItem('switchStatus', status);
         return status;
     }
 
