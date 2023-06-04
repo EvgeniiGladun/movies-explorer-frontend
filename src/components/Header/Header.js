@@ -5,7 +5,7 @@ import logo from '../../images/logo/logo.svg'
 import avatar from '../../images/profile/profile-icon.svg';
 import Navigation from '../Navigation/Navigation';
 
-function Header() {
+function Header({ loggedIn, ...props }) {
 
     // Получаем текущую ширину страницы
     const [width, setWidth] = React.useState(window.innerWidth);
@@ -31,7 +31,26 @@ function Header() {
         setIsOpenMainPage(currentLocation);
     }, [currentLocation]);
 
-    return currentLocation ? (
+    return currentLocation ? loggedIn ? (
+        <header className={`header ${currentLocation && isOpenMainPage ? 'header_color_grey' : ''}`}>
+            <div className='header__container'>
+                <div className='header__menu__container'>
+                    <Link to='/'><img className='header__logo' src={logo} alt='Логотип' /></Link>
+                    <nav className='header__menu-movies'>
+                        <NavLink to='pagemovies' className='header__link header__link-movies'>Фильмы</NavLink>
+                        <NavLink to='pagesavemovies' className='header__link'>Сохранённые фильмы</NavLink>
+                    </nav>
+                </div>
+
+                <nav className='header__menu-profile'>
+                    <NavLink to='profile' className='header__link header__link-profile'>Аккаунт</NavLink>
+                    <div className='header__profile__container'>
+                        <img className='header__profile__avatar' src={avatar} alt='Аватар профиля' />
+                    </div>
+                </nav>
+            </div>
+        </header>
+    ) : (
         <header className={`header ${currentLocation && isOpenMainPage ? 'header_color_grey' : ''}`}>
             <div className='header__container'>
 

@@ -16,6 +16,7 @@ class MainApi {
     getInitialMovies() {
         return fetch(this.baseUrl + "/movies", {
             headers: this.headers,
+            credentials: this.credentials,
         }).then((res) => {
             return this._getResponseData(res);
         });
@@ -47,6 +48,7 @@ class MainApi {
             })
             .then((data) => {
                 if (data.JWT) {
+                    localStorage.setItem("jwt", data.JWT);
                     return data;
                 } else {
                     return;
@@ -78,8 +80,10 @@ class MainApi {
     getAuthenticationUser(jwt) {
         return fetch(this.baseUrl + "/users/me", {
             method: "GET",
+            credentials: this.credentials,
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
                 Authorization: `Bearer ${jwt}`,
             },
         }).then((res) => {
@@ -87,6 +91,16 @@ class MainApi {
         });
     }
 
+    getLogout() {
+        return fetch(this.baseUrl + "/signout", {
+            method: 'POST',
+            headers: this._headers,
+            credentials: this.credentials,
+        })
+            .then((res) => {
+                return this._getResponseData(res);
+            })
+    }
 
     setInitialUsers(name, email) {
         return fetch(this.baseUrl + "/users/me", {

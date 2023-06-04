@@ -1,16 +1,17 @@
 import './Layout.css';
-import { React, useState, useCallback, useEffect } from 'react'
+import { React, useState, useCallback, useEffect, Children } from 'react';
 import { useLocation } from 'react-router-dom';
-import SearchForm from '../Movies/SearchForm/SearchForm'
+import SearchForm from '../Movies/SearchForm/SearchForm';
 import Preloader from '../Movies/Preloader/Preloader';
 
 function Layout(props) {
 
+    const children = Children.toArray(props.children);
+    const locationPageMovies = useLocation().pathname.toLocaleLowerCase() === '/pagemovies';
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const handleResize = useCallback(() => {
         setScreenWidth(window.innerWidth);
     }, [])
-    const currentLocation = useLocation().pathname.toLocaleLowerCase() === '/pagemovies';
 
     useEffect(() => {
         window.addEventListener('resize', handleResize);
@@ -28,20 +29,21 @@ function Layout(props) {
             {
                 props.preloader
                     ? <Preloader />
-                    : props.moviesList.length !== 0 ? <section className={`cards ${props.showBlockCards
+                    : <section className={`cards${props.showBlockCards || !locationPageMovies
                         ? ''
                         : 'cards_block_hide'}`}>
                         {props.children}
                     </section>
-                        :
-                        props.getErrorMovies ? <div className={`nothing-found ${props.showBlockCards ? '' : 'nothing-found_hide'}`}>
-                            <span className='nothing-found__text_error'>Во время запроса произошла ошибка.</span>
-                            <span className='nothing-found__text_error'>Возможно, проблема с соединением или сервер недоступен.</span>
-                            <span className='nothing-found__text_error'>Подождите немного и попробуйте ещё раз.</span>
-                        </div>
-                            : <div className={`nothing-found ${props.showBlockCards ? '' : 'nothing-found_hide'}`}>
-                                <span className='nothing-found__text_error'>Ничего не найдено</span>
-                            </div>
+            }
+            {
+                props.getErrorMovies ? <div className={`nothing-found ${props.showBlockErr ? '' : 'nothing-found_hide'}`}>
+                    <span className='nothing-found__text_error'>Во время запроса произошла ошибка.</span>
+                    <span className='nothing-found__text_error'>Возможно, проблема с соединением или сервер недоступен.</span>
+                    <span className='nothing-found__text_error'>Подождите немного и попробуйте ещё раз.</span>
+                </div>
+                    : <div className={`nothing-found ${props.showBlockErr ? '' : 'nothing-found_hide'}`}>
+                        <span className='nothing-found__text_error'>Ничего не найдено</span>
+                    </div>
             }
 
             {

@@ -4,6 +4,7 @@ import WithForm from '../../WithForm/WithForm';
 
 function Register({ handleRegister, ...props }) {
     const [userDataIn, setUserDataIn] = React.useState({
+        name: "",
         email: "",
         password: "",
     });
@@ -24,7 +25,6 @@ function Register({ handleRegister, ...props }) {
         if (!userDataIn.password) {
             return;
         }
-        console.log('нажал handleSubmit')
         const { name, email, password } = userDataIn;
         handleNewRegister(name, email, password);
         setUserDataIn({
@@ -36,7 +36,6 @@ function Register({ handleRegister, ...props }) {
     }
 
     const handleNewRegister = (name, email, password) => {
-        console.log('нажал handleNewRegister')
         handleRegister(name, email, password);
     };
 
@@ -60,11 +59,11 @@ function Register({ handleRegister, ...props }) {
                     >
                         <div className='register__inputs'>
                             <label className='register__label'>Имя</label>
-                            <input className='register__input register__input_user_name' onChange={handleChange} type='text' id='new-user-name' name='name' required />
+                            <input className='register__input register__input_user_name' onChange={handleChange} type='text' id='new-user-name' name='name' value={userDataIn.name} required />
                             <label className='register__label'>E-mail</label>
-                            <input className='register__input register__input_user_email' onChange={handleChange} type='email' id='new-user-email' name='email' required />
+                            <input className='register__input register__input_user_email' onChange={handleChange} type='email' id='new-user-email' name='email' value={userDataIn.email} required />
                             <label className='register__label'>Пароль</label>
-                            <input className='register__input register__input_user_password' onChange={handleChange} type='password' id='new-user-password' name='password' required />
+                            <input className='register__input register__input_user_password' onChange={handleChange} type='password' id='new-user-password' name='password' value={userDataIn.password} required />
                         </div>
 
                         <button

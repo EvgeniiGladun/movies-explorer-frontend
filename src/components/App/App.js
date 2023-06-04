@@ -1,7 +1,7 @@
 import { userContex } from '../../contexts/CurrentUserContext';
 
 import './App.css';
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -27,62 +27,92 @@ function App() {
   const hideHeader = hideOnHeader.includes(location.pathname);
 
   const [currentUser, setCurrentUser] = useState(null);
+  const requestUserHistory = localStorage.getItem('requestUser');
+  const moviesUserHistory = localStorage.getItem('moviesUser');
+  const switchUser = localStorage.getItem('switchStatus');
+  const [requestUserSerch, setRequestUserSerch] = useState(requestUserHistory ? requestUserHistory : '');
+  const [moviesHistory, setMoviesHistory] = useState(moviesUserHistory ? moviesUserHistory : []);
+  const [switchUserStatus, setSwitchUserStatus] = useState(switchUser);
   const [loggedIn, setLoggedIn] = useState(false);
 
   const [valueHideHeaderAndFooter, setValueHideHeaderAndFooter] = useState(false);
   const [preloader, setPreloader] = useState(false);
   const [dataMovies, setDataMovies] = useState([]);
+  const [dataUserMovies, setDataUserMovies] = useState([]);
   const [cards, setCards] = useState([]);
   const [showBlockCards, setShowBlockCards] = useState(false);
+  const [showBlockErr, setShowBlockErr] = useState(false);
   const [getErrorMovies, setGetErrorMovies] = useState(false);
   let requestUser = '';
 
-  // // Проверка JWT ключа в файлах пользвоателя
-  // React.useEffect(() => {
+  // Проверка JWT ключа в файлах пользвоателя
+  useEffect(() => {
 
-  //   // Если есть токен, авторизируем
-  //   apiMain
-  //     .getAuthenticationUser()
-  //     .then((res) => {
-  //       if (res) {
+    // Если есть токен, авторизируем
+    apiMain
+      .getAuthenticationUser()
+      .then((res) => {
+        if (res) {
 
-  //         setLoggedIn(true);
-  //         navigate('/pageMovies');
-  //       }
-  //     }).catch((err) => console.log(`Вы не авторизованы, ${err}`));
-  // }
-  //   , [])
+          setLoggedIn(true);
+          navigate('/pagemovies');
+        }
+      }).catch((err) => console.log(`Вы не авторизованы, ${err}`));
+  }
+    , [])
+
+  useEffect(() => {
+
+    if (!loggedIn) {
+      return;
+    }
+
+    Promise.all([apiMain.getInitialUsers(), apiMain.getInitialMovies()])
+      .then(([dataUser, moviesUserList]) => {
+        // Делаю запрос данных - пользователя
+        setCurrentUser(dataUser);
+        setDataUserMovies(moviesUserList.map((movies) => movies));
+      })
+
+      .catch((err) => {
+        console.log(err); // выведем ошибку в консоль
+      });
+  }, [loggedIn]);
 
   // Отправка запроса на фильм
   const getMoviesList = () => {
     setPreloader(true);
+    setShowBlockErr(false);
     setShowBlockCards(true);
 
-    Promise.all([apiOther.getMoviesList(), apiMain.getInitialUsers()])
-      .then(([moviesList, dataUser]) => {
-        moviesList.map((movies) => {
-          let arrayMovies = [];
+    apiOther
+      .getMoviesList()
+      .then((moviesList) => {
+        let arrayMovies = [];
 
-          movies.forEach((movie) => {
-            if (movie.nameRU.toLowerCase().includes(requestUser) || movie.nameEN.toLowerCase().includes(requestUser)) {
-              return arrayMovies.push(movie);
-            } return;
-          })
-
-          // Записываем массив из карточек в стейт
-          setDataMovies(arrayMovies);
-          // Делаю запрос данных - пользователя
-          setCurrentUser(dataUser);
+        moviesList.forEach((movie) => {
+          if (movie.nameRU.toLowerCase().includes(requestUser)
+            || movie.nameEN.toLowerCase().includes(requestUser)) {
+            return arrayMovies.push(movie);
+          };
         })
+        if (arrayMovies.length <= 0) {
+          setShowBlockCards(false);
+          setGetErrorMovies(false);
+          setShowBlockErr(true);
+          return;
+        }
+        console.log(arrayMovies)
+        localStorage.setItem('moviesUser', JSON.stringify(arrayMovies));
+        localStorage.setItem('requestUser', requestUser);
+        // Записываем массив из фильмов в стейт переменную
+        setDataMovies(arrayMovies);
       })
-      .then(() => setTimeout(() => {
-        setGetErrorMovies(false);
-        setPreloader(false);
-      }, 2000))
+      .then(() => setPreloader(false))
       .catch((err) => {
         setPreloader(false);
         setGetErrorMovies(true);
-        setShowBlockCards(true);
+        setShowBlockCards(false);
         return console.log(err);
       });
   }
@@ -97,14 +127,13 @@ function App() {
 
   // Смотрим что пользователь вводит
   const handleTypeUser = (request, checkbox, result) => {
+    setShowBlockErr(false);
     requestUser = request;
     localStorage.setItem('requestUser', requestUser);
-    console.log(request)
     return getMoviesList();
   }
 
   const hendlerMoviesLike = () => {
-    console.log('Movies like')
   };
 
   const handleAddPlaceSubmit = (dataAddMovie) => {
@@ -113,10 +142,26 @@ function App() {
     apiMain
       .setAddNewMovies(dataAddMovie)
       .then((arrAddCard) => {
-        setCards([arrAddCard, ...cards]);
+        return setCards([arrAddCard, ...cards]);
       })
       .catch((err) => {
-        console.log(err); // выведем ошибку в консоль
+        return console.log(err); // выведем ошибку в консоль
+      });
+  };
+
+  const handleNewUserData = (name, email) => {
+    console.log(name, email)
+    // Отправляем в API новые данные фильма и добавляем в массив
+    apiMain
+      .setInitialUsers(name, email)
+      .then((newDataUser) => {
+        return setCurrentUser({
+          name: newDataUser.name,
+          email: newDataUser.email,
+        });
+      })
+      .catch((err) => {
+        return console.log(err); // выведем ошибку в консоль
       });
   };
 
@@ -139,7 +184,6 @@ function App() {
     apiMain
       .setRegisterUser(name, email, password)
       .then(() => {
-        console.log('нажал handleRegister API')
         return handleLogin(email, password);
       })
       .catch((err) => {
@@ -148,10 +192,18 @@ function App() {
       });
   }
 
+  const handleLoggedIn = (boolew) => {
+    apiMain
+      .getLogout()
+      .catch((err) => console.log(err));
+    setLoggedIn(boolew);
+    localStorage.clear();
+  }
+
   return (
     <>
       <userContex.Provider value={currentUser}>
-        {hideHeader || valueHideHeaderAndFooter ? <></> : <Header />}
+        {hideHeader || valueHideHeaderAndFooter ? <></> : <Header loggedIn={loggedIn} />}
         <main className='main-content'>
           <Routes>
             <Route element={
@@ -161,11 +213,12 @@ function App() {
                 path='/pagesavemovies'
                 element={
                   <PageSaveMovies
-                    moviesList={dataMovies
-                      ? dataMovies
+                    dataUserMovies={dataUserMovies
+                      ? dataUserMovies
                       : []}
                     preloader={preloader}
                     getErrorMovies={getErrorMovies}
+                    showBlockErr={showBlockErr}
                     showBlockCards={showBlockCards}
                     usersSearchRequest={handleTypeUser}
                   />}
@@ -180,6 +233,7 @@ function App() {
                       : []}
                     preloader={preloader}
                     showBlockCards={showBlockCards}
+                    showBlockErr={showBlockErr}
                     handleShowPreloader={handleShowPreloader}
                     usersSearchRequest={handleTypeUser}
                     getErrorMovies={getErrorMovies}
@@ -191,10 +245,10 @@ function App() {
                 element={
                   <Profile
                     greeting='Привет'
-                    userName='Виталий'
-                    userEmail='pochta@yandex.ru'
                     btnEditText='Редактировать'
                     btnExitText='Выйти из аккаунта'
+                    onLoggedIn={handleLoggedIn}
+                    handleNewUserData={handleNewUserData}
                   />}
               />
             </Route>

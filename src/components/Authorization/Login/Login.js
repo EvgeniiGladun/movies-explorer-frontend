@@ -29,20 +29,6 @@ function Login({ handleLogin, ...props }) {
         handleLogins(email, password);
     }
 
-    // Обработка регистарицй пользователя
-    // function handleSubmit(evt) {
-
-    // if (!userDataIn.password) {
-    //     return;
-    // }
-    // const { email, password } = userDataIn;
-    // handleLoginIn(email, password);
-    // setUserDataIn({
-    //     email: "",
-    //     password: "",
-    // });
-
-
     return (
         <section className='authorization'>
             <div className='authorization__container'>
