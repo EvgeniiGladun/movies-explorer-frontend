@@ -6,13 +6,13 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 function SearchForm(props) {
     const location = useLocation().pathname.toLocaleLowerCase();
-    const [checkBoxStat, setCheckBoxStat] = useState(true);
+    const [checkBoxStat, setCheckBoxStat] = useState('');
 
     // Проверка чекбокса
     const checkboxStatus = (status) => {
-        setCheckBoxStat(status);
         localStorage.setItem('switchStatus', status);
-        return status;
+        const switchUser = localStorage.getItem('switchStatus');
+        return setCheckBoxStat(switchUser);
     }
 
     // Отправка запроса на фильм
@@ -66,7 +66,7 @@ function SearchForm(props) {
                                 <img className='searchform__form-btn__lens' src={lens} alt='Поиск фильма' />
                             </button>
                         </div>
-                        <FilterCheckbox checkboxStatus={checkboxStatus} />
+                        <FilterCheckbox checkBoxStat={checkBoxStat} checkboxStatus={checkboxStatus} />
                     </div>
 
                     <span className='searchform__error-inputSearch'></span>

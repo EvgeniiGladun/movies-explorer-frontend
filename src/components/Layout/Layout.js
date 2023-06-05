@@ -10,14 +10,15 @@ function Layout({ moreButton, showMoreMovies, ...props }) {
     const locationPageMovies = useLocation().pathname.toLocaleLowerCase() === '/pagemovies';
 
 
-    const showeMovies = () => {
-        showMoreMovies();
-    }
+    // const showeMovies = () => {
+    //     showMoreMovies();
+    // }
 
     return (
         <>
             <SearchForm
                 usersSearchRequest={props.usersSearchRequest}
+                requestUserSerch={props.requestUserSerch}
             />
             {
                 props.preloader
@@ -39,11 +40,11 @@ function Layout({ moreButton, showMoreMovies, ...props }) {
                     </div>
             } */}
 
-            {
+            {/* {
                 moreButton && <div className='cards-next'>
                     <button className='cards-next__btn-next' onClick={showeMovies}>Ещё</button>
                 </div>
-            }
+            } */}
         </>
     )
 }

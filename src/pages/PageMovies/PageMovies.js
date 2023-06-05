@@ -49,6 +49,7 @@ function PageMovies(props) {
     return (
         <>
             <Layout
+                requestUserSerch={props.requestUserSerch}
                 preloader={props.preloader}
                 moviesList={props.moviesList}
                 showBlockCards={props.showBlockCards}

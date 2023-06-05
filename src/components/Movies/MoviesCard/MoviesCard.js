@@ -13,10 +13,11 @@ function MoviesCard({ movie, card, dataUserMovies, hendlerMoviesDelete, hendlerM
 
     useEffect(() => {
         timeDuration();
+        isLiked;
     }, [])
 
     const isLiked = useMemo(() => {
-        return !!dataUserMovies?.some((i) => i.movieId === movie.id);
+        return dataUserMovies?.some((i) => i.movieId === movie.id);
     }, [dataUserMovies, movie])
 
     // Создаём переменную, которую после зададим в `className` для кнопки лайка

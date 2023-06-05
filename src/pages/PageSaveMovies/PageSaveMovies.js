@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useCallback } from 'react'
+import { React, useState, useEffect, useCallback, useMemo } from 'react'
 import Layout from '../../components/Layout/Layout';
 import MoviesCard from '../../components/Movies/MoviesCard/MoviesCard';
 import { firstMovies, nextStep } from '../../utils/constants';
@@ -6,10 +6,8 @@ import { firstMovies, nextStep } from '../../utils/constants';
 function PageSaveMovies(props) {
 
     const [moreButton, setMoreButton] = useState(false);
-    const [step, setStep] = useState(0);
-    const [numberOfFirstMovies, setNumberOfFirstMovies] = useState(0);
-    const [showMovies, setShowMovies] = useState([]);
-    const [paginator, setPaginator] = useState();
+    const [movies, setMovies] = useState(props.dataUserMovies ? props.dataUserMovies : []);
+    const [page, setPage] = useState(1);
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const handleResize = useCallback(() => {
         setScreenWidth(window.innerWidth);
@@ -23,28 +21,18 @@ function PageSaveMovies(props) {
         };
     }, [])
 
-    useEffect(() => {
-        showFirstMovies();
-    }, [props.dataUserMovies, screenWidth]);
+    const moviesToRander = useMemo(() => {
+        const countToRender = screenWidth < 768 ? 5 : screenWidth < 1280 ? 8 : 12;
 
-    useEffect(() => {
-        setMoreButton(paginator < props.dataUserMovies.length);
-    }, [showMovies]);
+        console.log(countToRender)
+        return movies.slice(0, countToRender * page);
+    }, [movies, page, screenWidth])
 
-    const showFirstMovies = () => {
-        setNumberOfFirstMovies(screenWidth > 1279 ? firstMovies.large : screenWidth > 954 ? firstMovies.medium : screenWidth > 768 ? firstMovies.small : firstMovies.smallest);
+    const handleMoreClick = useCallback(() => {
+        setPage((prev) => prev + 1);
+    }, [])
 
-        setPaginator(numberOfFirstMovies);
-        setShowMovies(props.dataUserMovies.slice(0, numberOfFirstMovies));
-    }
-
-    const showMoreMovies = () => {
-        const s = screenWidth > 1279 ? nextStep.large : screenWidth > 954 ? nextStep.medium : nextStep.small;
-        setStep(s);
-        let nextStepArr = props.dataUserMovies.slice(paginator, s);
-        setShowMovies(showMovies.concat(nextStepArr));
-        setPaginator(paginator + step);
-    }
+    console.log(movies)
 
     return (
         <>
@@ -55,12 +43,11 @@ function PageSaveMovies(props) {
                 showBlockErr={props.showBlockErr}
                 usersSearchRequest={props.usersSearchRequest}
                 showBlockCards={props.showBlockCards}
-                showMoreMovies={showMoreMovies}
                 moreButton={moreButton}
             >
                 {
                     props.dataUserMovies
-                        ? props.dataUserMovies.map((movie) => {
+                        ? moviesToRander.map((movie) => {
                             return (
                                 <MoviesCard
                                     movie={movie}
@@ -73,6 +60,11 @@ function PageSaveMovies(props) {
                                 />
                             )
                         }) : []
+                }
+                {
+                    movies > moviesToRander && <div className='cards-next'>
+                        <button className='cards-next__btn-next' onClick={handleMoreClick}>Ещё</button>
+                    </div>
                 }
             </ Layout>
         </>

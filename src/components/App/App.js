@@ -29,7 +29,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const requestUserHistory = localStorage.getItem('requestUser');
   const moviesUserHistory = localStorage.getItem('moviesUser');
-  const [requestUserSerch, setRequestUserSerch] = useState(requestUserHistory ? requestUserHistory : '');
+  const switchUser = localStorage.getItem('switchStatus');
+  const [requestUserSerch, setRequestUserSerch] = useState(switchUser ? switchUser : true);
+  const [checkboxSwitch, setCheckboxSwitch] = useState(requestUserHistory ? requestUserHistory : '');
   const [moviesHistory, setMoviesHistory] = useState(moviesUserHistory ? moviesUserHistory : []);
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -69,6 +71,7 @@ function App() {
       .then(([dataUser, moviesUserList]) => {
         // Делаю запрос данных - пользователя
         setCurrentUser(dataUser);
+        console.log(moviesUserList)
         setDataUserMovies(moviesUserList.map((movies) => movies));
       })
 
@@ -79,7 +82,6 @@ function App() {
 
   // Отправка запроса на фильм
   const getMoviesList = () => {
-    const switchUser = localStorage.getItem('switchStatus');
     setPreloader(true);
     setShowBlockErr(false);
     setShowBlockCards(true);
@@ -144,6 +146,10 @@ function App() {
       // Отправляем запрос в API для удаления фильма
       apiMain
         .deleteMovies(dataUserMovies.find(i => i.movieId === movies.id)._id)
+        .then((res) => {
+          console.log(res)
+          setDataUserMovies(dataUserMovies.filter((arrCards) => arrCards._id !== movies._id));
+        })
         .then(() => {
           setDataUserMovies(dataUserMovies.filter((arrCards) => arrCards._id !== movies._id));
         })
@@ -155,6 +161,7 @@ function App() {
       apiMain
         .setAddNewMovies(movies)
         .then((arrNewMovies) => {
+          console.log(arrNewMovies)
           setDataUserMovies([arrNewMovies, ...dataUserMovies]);
         })
         .catch((err) => {
@@ -253,6 +260,7 @@ function App() {
                 path='/pagesavemovies'
                 element={
                   <PageSaveMovies
+                    requestUserSerch={requestUserSerch}
                     dataUserMovies={dataUserMovies
                       ? dataUserMovies
                       : []}
@@ -269,6 +277,7 @@ function App() {
                 path='/pagemovies'
                 element={
                   <PageMovies
+                    requestUserSerch={requestUserSerch}
                     hendlerMoviesLike={hendlerMoviesLike}
                     dataUserMovies={dataUserMovies
                       ? dataUserMovies
