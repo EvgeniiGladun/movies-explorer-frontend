@@ -10,9 +10,9 @@ function Layout({ moreButton, showMoreMovies, ...props }) {
     const locationPageMovies = useLocation().pathname.toLocaleLowerCase() === '/pagemovies';
 
 
-    // const showeMovies = () => {
-    //     showMoreMovies();
-    // }
+    const showeMovies = () => {
+        showMoreMovies();
+    }
 
     return (
         <>
@@ -29,7 +29,8 @@ function Layout({ moreButton, showMoreMovies, ...props }) {
                         {props.children}
                     </section>
             }
-            {/* {
+
+            {
                 props.getErrorMovies ? <div className={`nothing-found ${props.showBlockErr ? '' : 'nothing-found_hide'}`}>
                     <span className='nothing-found__text_error'>Во время запроса произошла ошибка.</span>
                     <span className='nothing-found__text_error'>Возможно, проблема с соединением или сервер недоступен.</span>
@@ -38,13 +39,13 @@ function Layout({ moreButton, showMoreMovies, ...props }) {
                     : <div className={`nothing-found ${props.showBlockErr ? '' : 'nothing-found_hide'}`}>
                         <span className='nothing-found__text_error'>Ничего не найдено</span>
                     </div>
-            } */}
+            }
 
-            {/* {
+            {
                 moreButton && <div className='cards-next'>
                     <button className='cards-next__btn-next' onClick={showeMovies}>Ещё</button>
                 </div>
-            } */}
+            }
         </>
     )
 }

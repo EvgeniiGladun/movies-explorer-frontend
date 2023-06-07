@@ -6,8 +6,6 @@ import { firstMovies, nextStep } from '../../utils/constants';
 function PageMovies(props) {
 
     const [moreButton, setMoreButton] = useState(false);
-    const [step, setStep] = useState(0);
-    const [numberOfFirstMovies, setNumberOfFirstMovies] = useState(0);
     const [showMovies, setShowMovies] = useState([]);
     const [paginator, setPaginator] = useState();
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -32,19 +30,33 @@ function PageMovies(props) {
     }, [showMovies]);
 
     const showFirstMovies = () => {
-        setNumberOfFirstMovies(screenWidth > 1279 ? firstMovies.large : screenWidth > 954 ? firstMovies.medium : screenWidth > 768 ? firstMovies.small : firstMovies.smallest);
+        const firstMoviesCount =
+            screenWidth > 1279
+                ? firstMovies.large
+                : screenWidth > 954
+                    ? firstMovies.medium
+                    : screenWidth > 768
+                        ? firstMovies.small
+                        : firstMovies.smallest;
 
-        setPaginator(numberOfFirstMovies);
-        setShowMovies(props.moviesList.slice(0, numberOfFirstMovies));
+        setPaginator(firstMoviesCount);
+        setShowMovies(props.moviesList.slice(0, firstMoviesCount));
     }
 
     const showMoreMovies = () => {
-        setStep(screenWidth > 1279 ? nextStep.large : screenWidth > 954 ? nextStep.medium : nextStep.small);
+        const additionalMoviesCount =
+            screenWidth > 1279
+                ? nextStep.large
+                : screenWidth > 954
+                    ? nextStep.medium
+                    : screenWidth > 768
+                        ? nextStep.small
+                        : nextStep.smallest;
 
-        let nextStepArr = props.moviesList.splice(paginator, step);
-        setShowMovies(showMovies.concat(nextStepArr));
-        setPaginator(paginator + step);
-    }
+        const nextPaginator = paginator + additionalMoviesCount;
+        setShowMovies(props.moviesList.slice(0, nextPaginator));
+        setPaginator(nextPaginator);
+    };
 
     return (
         <>
@@ -73,16 +85,6 @@ function PageMovies(props) {
                                 />
                             )
                         }) : []
-                }
-                {
-                    props.getErrorMovies ? <div className={`nothing-found ${props.showBlockErr ? '' : 'nothing-found_hide'}`}>
-                        <span className='nothing-found__text_error'>Во время запроса произошла ошибка.</span>
-                        <span className='nothing-found__text_error'>Возможно, проблема с соединением или сервер недоступен.</span>
-                        <span className='nothing-found__text_error'>Подождите немного и попробуйте ещё раз.</span>
-                    </div>
-                        : <div className={`nothing-found ${props.showBlockErr ? '' : 'nothing-found_hide'}`}>
-                            <span className='nothing-found__text_error'>Ничего не найдено</span>
-                        </div>
                 }
             </ Layout>
         </>

@@ -2,7 +2,9 @@ class MoviesApi {
     constructor({ baseUrl, headers }) {
         this.baseUrl = baseUrl;
         this.headers = headers;
+        this.cachedMovies = null;
     }
+
 
     _getResponseData(res) {
         if (!res.ok) {
@@ -12,12 +14,19 @@ class MoviesApi {
     }
 
     getMoviesList() {
+        if (this.cachedMovies) {
+            return Promise.resolve(this.cachedMovies);
+        }
         return fetch(this.baseUrl, {
             headers: this.headers
         })
-            .then((res) => { return this._getResponseData(res) })
-            .then((data) => { return data })
-            .catch((err) => { err });
+            .then((res) => {
+                return this._getResponseData(res);
+            })
+            .then((data) => {
+                this.cachedMovies = data;
+                return data;
+            })
     }
 
 }

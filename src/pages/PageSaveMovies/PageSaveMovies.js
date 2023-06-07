@@ -1,38 +1,9 @@
-import { React, useState, useEffect, useCallback, useMemo } from 'react'
+import { React, useState, useEffect, useCallback } from 'react'
+import { firstMovies, nextStep } from '../../utils/constants';
 import Layout from '../../components/Layout/Layout';
 import MoviesCard from '../../components/Movies/MoviesCard/MoviesCard';
-import { firstMovies, nextStep } from '../../utils/constants';
 
 function PageSaveMovies(props) {
-
-    const [moreButton, setMoreButton] = useState(false);
-    const [movies, setMovies] = useState(props.dataUserMovies ? props.dataUserMovies : []);
-    const [page, setPage] = useState(1);
-    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-    const handleResize = useCallback(() => {
-        setScreenWidth(window.innerWidth);
-    }, [])
-
-    useEffect(() => {
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [])
-
-    const moviesToRander = useMemo(() => {
-        const countToRender = screenWidth < 768 ? 5 : screenWidth < 1280 ? 8 : 12;
-
-        console.log(countToRender)
-        return movies.slice(0, countToRender * page);
-    }, [movies, page, screenWidth])
-
-    const handleMoreClick = useCallback(() => {
-        setPage((prev) => prev + 1);
-    }, [])
-
-    console.log(movies)
 
     return (
         <>
@@ -43,11 +14,10 @@ function PageSaveMovies(props) {
                 showBlockErr={props.showBlockErr}
                 usersSearchRequest={props.usersSearchRequest}
                 showBlockCards={props.showBlockCards}
-                moreButton={moreButton}
             >
                 {
                     props.dataUserMovies
-                        ? moviesToRander.map((movie) => {
+                        ? showMovies.map((movie) => {
                             return (
                                 <MoviesCard
                                     movie={movie}
@@ -60,11 +30,6 @@ function PageSaveMovies(props) {
                                 />
                             )
                         }) : []
-                }
-                {
-                    movies > moviesToRander && <div className='cards-next'>
-                        <button className='cards-next__btn-next' onClick={handleMoreClick}>Ещё</button>
-                    </div>
                 }
             </ Layout>
         </>

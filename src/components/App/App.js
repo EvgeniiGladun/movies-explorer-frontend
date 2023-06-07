@@ -84,23 +84,19 @@ function App() {
     setPreloader(true);
     setShowBlockErr(false);
     setShowBlockCards(true);
-    console.log(switchUser)
 
     apiOther
       .getMoviesList()
       .then((moviesList) => {
-        let arrayMovies = [];
-        let arrayMoviesSmail = [];
+        let arrayMovies = moviesList.filter((movie) => {
+          if (switchUser && movie.duration < 40) {
+            return false;
+          } return (movie.nameRU.toLowerCase().includes(requestUser) ||
+            movie.nameEN.toLowerCase().includes(requestUser));
+        });
 
-        moviesList.forEach((movie) => {
-          if (movie.nameRU.toLowerCase().includes(requestUser)
-            || movie.nameEN.toLowerCase().includes(requestUser)) {
-            if (switchUser && movie.duration < 40) {
-              return arrayMoviesSmail.push(movie);
-            }
-            return arrayMovies.push(movie);
-          };
-        })
+        setDataMovies(arrayMovies);
+
         if (arrayMovies.length <= 0) {
           setShowBlockCards(false);
           setGetErrorMovies(false);
@@ -111,8 +107,6 @@ function App() {
 
         localStorage.setItem('moviesUser', JSON.stringify(arrayMovies));
         localStorage.setItem('requestUser', requestUser);
-        // Записываем массив из фильмов в стейт переменную
-        setDataMovies(switchUser == "true" ? arrayMoviesSmail : arrayMovies);
       })
       .then(() => setPreloader(false))
       .catch((err) => {
@@ -147,10 +141,9 @@ function App() {
         .deleteMovies(dataUserMovies.find(i => i.movieId === movies.id)._id)
         .then((res) => {
           console.log(res)
-          setDataUserMovies(dataUserMovies.filter((arrCards) => arrCards._id !== movies._id));
-        })
-        .then(() => {
-          setDataUserMovies(dataUserMovies.filter((arrCards) => arrCards._id !== movies._id));
+          setDataUserMovies(prev =>
+            prev.filter((arrCards) => arrCards.movieId !== movies.id)
+          );
         })
         .catch((err) => {
           console.log(err); // выведем ошибку в консоль
@@ -161,7 +154,9 @@ function App() {
         .setAddNewMovies(movies)
         .then((arrNewMovies) => {
           console.log(arrNewMovies)
-          setDataUserMovies([arrNewMovies, ...dataUserMovies]);
+          setDataUserMovies(prev =>
+            [...prev, arrNewMovies]
+          );
         })
         .catch((err) => {
           console.log(err); // выведем ошибку в консоль
