@@ -55,7 +55,6 @@ function App() {
       .then((res) => {
         if (res) {
           setLoggedIn(true);
-          navigate('/pagemovies');
         }
       }).catch((err) => console.log(`Вы не авторизованы, ${err}`));
   }
@@ -217,6 +216,7 @@ function App() {
       .setAuthorizeUser(email.toLowerCase(), password)
       .then((data) => {
         if (true) {
+          // console.log(document.cookie = data.JWT)
           setLoggedIn(true);
           navigate('/pagemovies');
           return data;
@@ -309,8 +309,8 @@ function App() {
             </Route>
             <Route path='/signin' element={<Login handleLogin={handleLogin} />} />
             <Route path='/signup' element={<Register handleRegister={handleRegister} />} />
-            <Route path='/' element={<Main />} />
             <Route path='*' element={<PageNotFound hideHeaderAndFooter={hideHeaderAndFooter} />} />
+            <Route path='/' element={<Main />} />
           </Routes >
         </main>
         {hideFooter || hideHeader || valueHideHeaderAndFooter ? <></> : <Footer />}

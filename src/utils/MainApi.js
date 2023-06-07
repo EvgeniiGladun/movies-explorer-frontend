@@ -48,12 +48,8 @@ class MainApi {
                 return this._getResponseData(res);
             })
             .then((data) => {
-                if (data.JWT) {
-                    localStorage.setItem("jwt", data.JWT);
-                    return data;
-                } else {
-                    return;
-                }
+                console.log(data)
+                return data;
             });
     }
 
@@ -78,14 +74,12 @@ class MainApi {
     }
 
     // Проверяем JWT пользователя 
-    getAuthenticationUser(jwt) {
+    getAuthenticationUser() {
         return fetch(this.baseUrl + "/users/me", {
             method: "GET",
             credentials: this.credentials,
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                Authorization: `Bearer ${jwt}`,
             },
         }).then((res) => {
             return this._getResponseData(res);
@@ -156,7 +150,7 @@ class MainApi {
 
 // Делаем запрос по api для получения информации
 const apiMain = new MainApi({
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://api.high-level.nomoredomains.work",
     baseUrlMovies: 'https://api.nomoreparties.co',
     credentials: "include",
     headers: {
