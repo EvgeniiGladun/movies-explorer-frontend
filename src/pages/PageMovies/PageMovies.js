@@ -32,7 +32,6 @@ function PageMovies(props) {
     }, []);
 
     const getMoviesList = () => {
-        console.log("pam");
         props.handleShowPreloader(true);
         setShowBlockErr(false);
         setShowBlockCards(true);
@@ -52,8 +51,6 @@ function PageMovies(props) {
 
                 setDataMovies(arrayMovies);
 
-                console.log(arrayMovies);
-
                 if (arrayMovies.length <= 0) {
                     setShowBlockCards(false);
                     setGetErrorMovies(false);
@@ -61,8 +58,7 @@ function PageMovies(props) {
                     return;
                 }
             })
-            .catch((e) => {
-                console.log(e);
+            .catch(() => {
                 setGetErrorMovies(true);
                 setShowBlockCards(false);
             })

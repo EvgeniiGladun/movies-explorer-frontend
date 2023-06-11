@@ -48,7 +48,6 @@ class MainApi {
                 return this._getResponseData(res);
             })
             .then((data) => {
-                console.log(data)
                 return data;
             });
     }

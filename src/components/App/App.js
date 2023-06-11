@@ -57,7 +57,6 @@ function App() {
       .then(([dataUser, moviesUserList]) => {
         // Делаю запрос данных - пользователя
         setCurrentUser(dataUser);
-        console.log(moviesUserList);
         setDataUserMovies(moviesUserList);
       })
 
@@ -79,8 +78,7 @@ function App() {
       // Отправляем запрос в API для удаления фильма
       apiMain
         .deleteMovies(dataUserMovies.find((i) => i.movieId === movies.id)._id)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           setDataUserMovies((prev) =>
             prev.filter((arrCards) => arrCards.movieId !== movies.id)
           );
@@ -93,7 +91,6 @@ function App() {
       apiMain
         .setAddNewMovies(movies)
         .then((arrNewMovies) => {
-          console.log(arrNewMovies);
           setDataUserMovies((prev) => [...prev, arrNewMovies]);
         })
         .catch((err) => {
@@ -129,7 +126,6 @@ function App() {
   };
 
   const handleNewUserData = (name, email) => {
-    console.log(name, email);
     // Отправляем в API новые данные пользователя
     apiMain
       .setInitialUsers(name, email)
@@ -159,7 +155,6 @@ function App() {
       .setAuthorizeUser(email.toLowerCase(), password)
       .then((data) => {
         if (true) {
-          // console.log(document.cookie = data.JWT)
           setLoggedIn(true);
           navigate("/pagemovies");
           return data;
