@@ -1,49 +1,9 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './WithForm.css';
 import logo from '../../images/logo/logo.svg';
 
 function WithForm(props) {
-    const location = useLocation();
-    const [userDataIn, setUserDataIn] = React.useState({
-        email: "",
-        password: "",
-    });
-
-    // Обработка полей формы, забираем данные
-    const handleChange = (evt) => {
-        const { name, value } = evt.target;
-        setUserDataIn({
-            ...userDataIn,
-            [name]: value,
-        });
-    };
-
-    // Обработка регистарицй пользователя
-    function handleSubmit(evt) {
-        evt.preventDefault();
-
-        if (!userDataIn.password) {
-            return;
-        }
-        const { email, password } = userDataIn;
-        handleLoginIn(email, password);
-        setUserDataIn({
-            email: "",
-            password: "",
-        });
-
-    }
-
-    const submitFormLogin = (evt) => {
-        evt.preventDefault();
-        alert('Форма отправлена')
-    }
-
-    const submitFormRegister = (evt) => {
-        evt.preventDefault();
-        alert('Форма отправлена регистрация')
-    }
 
     return (
         <section

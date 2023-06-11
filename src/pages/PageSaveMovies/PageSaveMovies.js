@@ -1,39 +1,58 @@
-import { React, useState, useEffect, useCallback } from 'react'
-import { firstMovies, nextStep } from '../../utils/constants';
-import Layout from '../../components/Layout/Layout';
-import MoviesCard from '../../components/Movies/MoviesCard/MoviesCard';
+import { React, useState, useCallback, useMemo } from "react";
+import Layout from "../../components/Layout/Layout";
+import MoviesCard from "../../components/Movies/MoviesCard/MoviesCard";
 
 function PageSaveMovies(props) {
+    const [filterString, setFilterString] = useState("");
+    const [searchValue, setSearchValue] = useState("");
+    const [showShortOnly, setShowShortOnly] = useState(false);
+
+    const filteredMovies = useMemo(() => {
+        return props.dataUserMovies.filter((movie) => {
+            if (showShortOnly && movie.duration > 40) {
+                return false;
+            }
+            return (
+                movie.nameRU.toLowerCase().includes(filterString) ||
+                movie.nameEN.toLowerCase().includes(filterString)
+            );
+        });
+    }, [props.dataUserMovies, filterString, showShortOnly]);
+
+    const handleSearch = useCallback((query) => {
+        setFilterString(query);
+    }, []);
 
     return (
         <>
             <Layout
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
                 preloader={props.preloader}
-                dataUserMovies={props.dataUserMovies}
+                dataUserMovies={filteredMovies}
                 getErrorMovies={props.getErrorMovies}
                 showBlockErr={props.showBlockErr}
-                usersSearchRequest={props.usersSearchRequest}
+                usersSearchRequest={handleSearch}
                 showBlockCards={props.showBlockCards}
+                showShortOnly={showShortOnly}
+                setShowShortOnly={setShowShortOnly}
             >
-                {
-                    props.dataUserMovies
-                        ? showMovies.map((movie) => {
-                            return (
-                                <MoviesCard
-                                    movie={movie}
-                                    hendlerMoviesLike={props.hendlerMoviesLike}
-                                    handleAddPlaceSubmit={props.handleAddPlaceSubmit}
-                                    hendlerMoviesDelete={props.hendlerMoviesDelete}
-                                    dataUserMovies={props.dataUserMovies}
-                                    key={movie._id}
-                                    {...movie}
-                                />
-                            )
-                        }) : []
-                }
-            </ Layout>
+                {filteredMovies.map((movie) => {
+                    return (
+                        <MoviesCard
+                            movie={movie}
+                            hendlerMoviesLike={props.hendlerMoviesLike}
+                            handleAddPlaceSubmit={props.handleAddPlaceSubmit}
+                            hendlerMoviesDelete={props.hendlerMoviesDelete}
+                            dataUserMovies={props.dataUserMovies}
+                            key={movie._id}
+                            {...movie}
+                        />
+                    );
+                }) ?? []}
+            </Layout>
         </>
-    )
+    );
 }
 
-export default PageSaveMovies
+export default PageSaveMovies;

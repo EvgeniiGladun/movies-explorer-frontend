@@ -1,38 +1,21 @@
 import React from 'react'
 import './Register.css';
 import WithForm from '../../WithForm/WithForm';
+import { useFormWithValidation } from '../../Validate/Validate';
 
-function Register({ handleRegister, ...props }) {
-    const [userDataIn, setUserDataIn] = React.useState({
-        name: "",
-        email: "",
-        password: "",
-    });
+function Register({ serverResWithError, handleRegister, ...props }) {
 
-    // Обработка полей формы, забираем данные
-    const handleChange = (evt) => {
-        const { name, value } = evt.target;
-        setUserDataIn({
-            ...userDataIn,
-            [name]: value,
-        });
-    };
+    const { values, handleChange, errors, isValid } = useFormWithValidation();
 
     // Обработка регистарицй пользователя
     function handleSubmit(evt) {
         evt.preventDefault();
 
-        if (!userDataIn.password) {
+        if (!values.password) {
             return;
         }
-        const { name, email, password } = userDataIn;
+        const { name, email, password } = values;
         handleNewRegister(name, email, password);
-        setUserDataIn({
-            name: "",
-            email: "",
-            password: "",
-        });
-
     }
 
     const handleNewRegister = (name, email, password) => {
@@ -59,15 +42,34 @@ function Register({ handleRegister, ...props }) {
                     >
                         <div className='register__inputs'>
                             <label className='register__label'>Имя</label>
-                            <input className='register__input register__input_user_name' onChange={handleChange} type='text' id='new-user-name' name='name' value={userDataIn.name} required />
+                            <input className='register__input register__input_user_name' onChange={handleChange} type='text' id='new-user-name' name='name' minLength={2} maxLength={30} required />
+                            <span className={`register__span ${!errors ? "" : "register__span_type_input_error"}`}
+                            >{errors.name}</span>
+
                             <label className='register__label'>E-mail</label>
-                            <input className='register__input register__input_user_email' onChange={handleChange} type='email' id='new-user-email' name='email' value={userDataIn.email} required />
+                            <input className='register__input register__input_user_email' onChange={handleChange} type='email' id='new-user-email' name='email' required />
+                            <span className={`register__span ${!errors ? "" : "register__span_type_input_error"}`}
+                            >{errors.email}</span>
+
                             <label className='register__label'>Пароль</label>
-                            <input className='register__input register__input_user_password' onChange={handleChange} type='password' id='new-user-password' name='password' value={userDataIn.password} required />
+                            <input className='register__input register__input_user_password' onChange={handleChange} type='password' id='new-user-password' name='password' required />
+                            <span className={`register__span ${!errors ? "" : "register__span_type_input_error"}`}
+                            >{errors.password}</span>
                         </div>
 
+                        <span
+                            className={
+                                `register__span ${!serverResWithError
+                                    ? ""
+                                    : "register__span_type_register"}`
+                            }
+                        >
+                            {serverResWithError.message}
+                        </span>
+
                         <button
-                            className={`register__form-btn-sends-register`}
+                            className={`register__form-btn-sends-register ${isValid ? "register__form-btn-sends-register_active" : ""}`}
+                            disabled={!isValid}
                             type='submit'
                         >
                             Зарегистрироваться

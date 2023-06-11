@@ -1,19 +1,15 @@
-import { userContex } from '../../../contexts/CurrentUserContext';
-
-import { React, useState, useEffect, useContext, useMemo } from 'react'
+import { React, useState, useEffect, useMemo } from 'react'
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
 const IMG_URL = 'https://api.nomoreparties.co';
 
 function MoviesCard({ movie, card, dataUserMovies, hendlerMoviesDelete, hendlerMoviesLike, ...props }) {
     const location = useLocation();
-    const currentUser = useContext(userContex);
     const [duration, setDuratiion] = useState('');
     const showCross = ['/pagesavemovies'].includes(location.pathname);
 
     useEffect(() => {
         timeDuration();
-        isLiked;
     }, [])
 
     const isLiked = useMemo(() => {

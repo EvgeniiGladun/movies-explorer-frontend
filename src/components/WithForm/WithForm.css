@@ -39,6 +39,7 @@
 
 .form__authorization {
   margin: 0;
+  margin-top: 16px;
   color: rgba(139, 139, 139, 1);
   font-weight: 400;
   font-size: 14px;

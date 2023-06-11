@@ -1,19 +1,18 @@
-import { userContex } from '../../contexts/CurrentUserContext';
+import { userContex } from "../../contexts/CurrentUserContext";
 
-import './App.css';
-import { React, useState, useEffect } from 'react';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import Header from '../Header/Header';
-import Main from '../Main/Main';
-import PageMovies from '../../pages/PageMovies/PageMovies';
-import PageSaveMovies from '../../pages/PageSaveMovies/PageSaveMovies';
-import PageNotFound from '../PageNotFound/PageNotFound';
-import Register from '../Authorization/Register/Register';
-import Login from '../Authorization/Login/Login';
-import Profile from '../Authorization/Profile/Profile';
-import Footer from '../Footer/Footer';
-import apiOther from '../../utils/MoviesApi';
-import apiMain from '../../utils/MainApi';
+import "./App.css";
+import { React, useState, useEffect } from "react";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import Header from "../Header/Header";
+import Main from "../Main/Main";
+import PageMovies from "../../pages/PageMovies/PageMovies";
+import PageSaveMovies from "../../pages/PageSaveMovies/PageSaveMovies";
+import PageNotFound from "../PageNotFound/PageNotFound";
+import Register from "../Authorization/Register/Register";
+import Login from "../Authorization/Login/Login";
+import Profile from "../Authorization/Profile/Profile";
+import Footer from "../Footer/Footer";
+import apiMain from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
@@ -21,34 +20,23 @@ function App() {
   const navigate = useNavigate();
 
   // Показываем или скрываем компонент
-  const hideOnFooter = ['/profile'];
-  const hideOnHeader = ['/signup', '/signin'];
-  const hideFooter = hideOnFooter.includes(location.pathname);
-  const hideHeader = hideOnHeader.includes(location.pathname);
+  const hideFooter = ["/profile"].includes(location.pathname);
+  const hideHeader = ["/signup", "/signin"].includes(location.pathname);
 
   const [currentUser, setCurrentUser] = useState(null);
-  const requestUserHistory = localStorage.getItem('requestUser');
-  const moviesUserHistory = localStorage.getItem('moviesUser');
-  const switchUser = localStorage.getItem('switchStatus');
-  const [requestUserSerch, setRequestUserSerch] = useState(switchUser ? switchUser : true);
-  const [checkboxSwitch, setCheckboxSwitch] = useState(requestUserHistory ? requestUserHistory : '');
-  const [moviesHistory, setMoviesHistory] = useState(moviesUserHistory ? moviesUserHistory : []);
+
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const [valueHideHeaderAndFooter, setValueHideHeaderAndFooter] = useState(false);
+  const [valueHideHeaderAndFooter, setValueHideHeaderAndFooter] =
+    useState(false);
   const [preloader, setPreloader] = useState(false);
-  const [dataMovies, setDataMovies] = useState([]);
+  const [serverResWithError, setServerResWithError] = useState({});
+
   const [dataUserMovies, setDataUserMovies] = useState([]);
   const [cards, setCards] = useState([]);
-  const [card, setCard] = useState({});
-  const [showBlockCards, setShowBlockCards] = useState(false);
-  const [showBlockErr, setShowBlockErr] = useState(false);
-  const [getErrorMovies, setGetErrorMovies] = useState(false);
-  let requestUser = '';
 
   // Проверка JWT ключа в файлах пользвоателя
   useEffect(() => {
-
     // Если есть токен, авторизируем
     apiMain
       .getAuthenticationUser()
@@ -56,12 +44,11 @@ function App() {
         if (res) {
           setLoggedIn(true);
         }
-      }).catch((err) => console.log(`Вы не авторизованы, ${err}`));
-  }
-    , [])
+      })
+      .catch((err) => console.log(`Вы не авторизованы, ${err}`));
+  }, []);
 
   useEffect(() => {
-
     if (!loggedIn) {
       return;
     }
@@ -70,8 +57,8 @@ function App() {
       .then(([dataUser, moviesUserList]) => {
         // Делаю запрос данных - пользователя
         setCurrentUser(dataUser);
-        console.log(moviesUserList)
-        setDataUserMovies(moviesUserList.map((movies) => movies));
+        console.log(moviesUserList);
+        setDataUserMovies(moviesUserList);
       })
 
       .catch((err) => {
@@ -79,69 +66,22 @@ function App() {
       });
   }, [loggedIn]);
 
-  // Отправка запроса на фильм
-  const getMoviesList = () => {
-    setPreloader(true);
-    setShowBlockErr(false);
-    setShowBlockCards(true);
-
-    apiOther
-      .getMoviesList()
-      .then((moviesList) => {
-        let arrayMovies = moviesList.filter((movie) => {
-          if (switchUser && movie.duration < 40) {
-            return false;
-          } return (movie.nameRU.toLowerCase().includes(requestUser) ||
-            movie.nameEN.toLowerCase().includes(requestUser));
-        });
-
-        setDataMovies(arrayMovies);
-
-        if (arrayMovies.length <= 0) {
-          setShowBlockCards(false);
-          setGetErrorMovies(false);
-          setShowBlockErr(true);
-          setDataMovies([]);
-          return;
-        }
-
-        localStorage.setItem('moviesUser', JSON.stringify(arrayMovies));
-        localStorage.setItem('requestUser', requestUser);
-      })
-      .then(() => setPreloader(false))
-      .catch((err) => {
-        setPreloader(false);
-        setGetErrorMovies(true);
-        setShowBlockCards(false);
-        return console.log(err);
-      });
-  }
-
   function hideHeaderAndFooter(value) {
     return setValueHideHeaderAndFooter(value);
   }
 
-  const handleShowPreloader = () => {
-    return setPreloader(false);
-  }
-
-  // Смотрим что пользователь вводит
-  const handleTypeUser = (request, checkbox, result) => {
-    setShowBlockErr(false);
-    requestUser = request;
-    localStorage.setItem('requestUser', requestUser);
-    return getMoviesList();
-  }
+  const handleShowPreloader = (state) => {
+    setPreloader(state);
+  };
 
   const hendlerMoviesLike = (movies, isLiked) => {
-
     if (!isLiked) {
       // Отправляем запрос в API для удаления фильма
       apiMain
-        .deleteMovies(dataUserMovies.find(i => i.movieId === movies.id)._id)
+        .deleteMovies(dataUserMovies.find((i) => i.movieId === movies.id)._id)
         .then((res) => {
-          console.log(res)
-          setDataUserMovies(prev =>
+          console.log(res);
+          setDataUserMovies((prev) =>
             prev.filter((arrCards) => arrCards.movieId !== movies.id)
           );
         })
@@ -153,10 +93,8 @@ function App() {
       apiMain
         .setAddNewMovies(movies)
         .then((arrNewMovies) => {
-          console.log(arrNewMovies)
-          setDataUserMovies(prev =>
-            [...prev, arrNewMovies]
-          );
+          console.log(arrNewMovies);
+          setDataUserMovies((prev) => [...prev, arrNewMovies]);
         })
         .catch((err) => {
           console.log(err); // выведем ошибку в консоль
@@ -165,12 +103,13 @@ function App() {
   };
 
   function hendlerMoviesDelete(movies) {
-
     // Отправляем запрос в API для удаления фильма
     apiMain
       .deleteMovies(movies._id)
       .then(() => {
-        setDataUserMovies(dataUserMovies.filter((arrCards) => arrCards._id !== movies._id));
+        setDataUserMovies(
+          dataUserMovies.filter((arrCards) => arrCards._id !== movies._id)
+        );
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
@@ -178,7 +117,6 @@ function App() {
   }
 
   const handleAddPlaceSubmit = (dataAddMovie) => {
-
     // Отправляем в API новые данные фильма и добавляем в массив
     apiMain
       .setAddNewMovies(dataAddMovie)
@@ -191,8 +129,8 @@ function App() {
   };
 
   const handleNewUserData = (name, email) => {
-    console.log(name, email)
-    // Отправляем в API новые данные фильма и добавляем в массив
+    console.log(name, email);
+    // Отправляем в API новые данные пользователя
     apiMain
       .setInitialUsers(name, email)
       .then((newDataUser) => {
@@ -202,10 +140,20 @@ function App() {
         });
       })
       .catch((err) => {
-        return console.log(err); // выведем ошибку в консоль
+        if (err === 409) {
+          setServerResWithError({
+            message: "Пользователь с таким email уже существует.",
+          });
+        } else {
+          setServerResWithError({
+            message: "500 На сервере произошла ошибка.",
+          });
+        }
+        setTimeout(() => setServerResWithError({}), 3500);
       });
   };
 
+  // Логин пользователя
   const handleLogin = (email, password) => {
     apiMain
       .setAuthorizeUser(email.toLowerCase(), password)
@@ -213,14 +161,28 @@ function App() {
         if (true) {
           // console.log(document.cookie = data.JWT)
           setLoggedIn(true);
-          navigate('/pagemovies');
+          navigate("/pagemovies");
           return data;
         }
       })
       .catch((err) => {
-        return console.log(err);
+        if (err === 400) {
+          setServerResWithError({
+            message: "При авторизации произошла ошибка.",
+          });
+        } else if (err === 401) {
+          setServerResWithError({
+            message: "Вы ввели неправильный логин или пароль.",
+          })
+        } else {
+          setServerResWithError({
+            message: "500 На сервере произошла ошибка.",
+          });
+        }
+        setTimeout(() => setServerResWithError({}), 3500);
+        setLoggedIn(false);
       });
-  }
+  };
 
   function handleRegister(name, email, password) {
     apiMain
@@ -229,89 +191,102 @@ function App() {
         return handleLogin(email, password);
       })
       .catch((err) => {
+        if (err === 400) {
+          setServerResWithError({
+            message: "При регистрации пользователя произошла ошибка.",
+          })
+        } else if (err === 409) {
+          setServerResWithError({
+            message: "Пользователь с таким email уже существует.",
+          });
+        } else {
+          setServerResWithError({
+            message: "500 На сервере произошла ошибка.",
+          });
+        }
+        setTimeout(() => setServerResWithError({}), 3500);
         setLoggedIn(false);
-        return console.log(err);
       });
   }
 
   const handleLoggedIn = (boolew) => {
-    apiMain
-      .getLogout()
-      .catch((err) => console.log(err));
+    apiMain.getLogout().catch((err) => console.log(err));
     setLoggedIn(boolew);
     localStorage.clear();
-  }
+  };
 
   return (
     <>
       <userContex.Provider value={currentUser}>
-        {hideHeader || valueHideHeaderAndFooter ? <></> : <Header loggedIn={loggedIn} />}
-        <main className='main-content'>
+        {hideHeader || valueHideHeaderAndFooter ? (
+          <></>
+        ) : (
+          <Header loggedIn={loggedIn} />
+        )}
+        <main className="main-content">
           <Routes>
-            <Route element={
-              <ProtectedRoute
-                loggedIn={loggedIn} />}>
+            <Route element={<ProtectedRoute loggedIn={loggedIn} />}>
               <Route
-                path='/pagesavemovies'
+                path="/pagesavemovies"
                 element={
                   <PageSaveMovies
-                    requestUserSerch={requestUserSerch}
-                    dataUserMovies={dataUserMovies
-                      ? dataUserMovies
-                      : []}
-                    card={card}
+                    dataUserMovies={dataUserMovies}
                     preloader={preloader}
-                    getErrorMovies={getErrorMovies}
-                    showBlockErr={showBlockErr}
-                    showBlockCards={showBlockCards}
                     hendlerMoviesDelete={hendlerMoviesDelete}
-                    usersSearchRequest={handleTypeUser}
-                  />}
+                  />
+                }
               />
               <Route
-                path='/pagemovies'
+                path="/pagemovies"
                 element={
                   <PageMovies
-                    requestUserSerch={requestUserSerch}
                     hendlerMoviesLike={hendlerMoviesLike}
-                    dataUserMovies={dataUserMovies
-                      ? dataUserMovies
-                      : []}
-                    moviesList={dataMovies
-                      ? dataMovies
-                      : []}
-                    card={card}
+                    dataUserMovies={dataUserMovies}
                     preloader={preloader}
-                    showBlockCards={showBlockCards}
-                    showBlockErr={showBlockErr}
                     handleShowPreloader={handleShowPreloader}
-                    usersSearchRequest={handleTypeUser}
-                    getErrorMovies={getErrorMovies}
                     handleAddPlaceSubmit={handleAddPlaceSubmit}
-                  />}
+                  />
+                }
               />
               <Route
-                path='/profile'
+                path="/profile"
                 element={
                   <Profile
-                    greeting='Привет'
-                    btnEditText='Редактировать'
-                    btnExitText='Выйти из аккаунта'
+                    greeting="Привет"
+                    btnEditText="Редактировать"
+                    btnExitText="Выйти из аккаунта"
                     onLoggedIn={handleLoggedIn}
                     handleNewUserData={handleNewUserData}
-                  />}
+                    serverResWithError={serverResWithError}
+                  />
+                }
               />
             </Route>
-            <Route path='/signin' element={<Login handleLogin={handleLogin} />} />
-            <Route path='/signup' element={<Register handleRegister={handleRegister} />} />
-            <Route path='*' element={<PageNotFound hideHeaderAndFooter={hideHeaderAndFooter} />} />
-            <Route path='/' element={<Main />} />
-          </Routes >
+            <Route
+              path="/signin"
+              element={<Login handleLogin={handleLogin} serverResWithError={serverResWithError} />}
+            />
+            <Route
+              path="/signup"
+              element={<Register handleRegister={handleRegister} serverResWithError={serverResWithError} />}
+            />
+            <Route
+              path="*"
+              element={
+                <PageNotFound hideHeaderAndFooter={hideHeaderAndFooter} />
+              }
+            />
+            <Route path="/" element={<Main />} />
+          </Routes>
         </main>
-        {hideFooter || hideHeader || valueHideHeaderAndFooter ? <></> : <Footer />}
+        {hideFooter || hideHeader || valueHideHeaderAndFooter ? (
+          <></>
+        ) : (
+          <Footer />
+        )}
       </userContex.Provider>
     </>
-  )
+  );
 }
 
 export default App;
