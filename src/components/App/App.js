@@ -152,7 +152,7 @@ function App() {
   // Логин пользователя
   const handleLogin = (email, password) => {
     apiMain
-      .setAuthorizeUser(email.toLowerCase(), password)
+      .setAuthorizeUser(email, password)
       .then((data) => {
         if (true) {
           setLoggedIn(true);

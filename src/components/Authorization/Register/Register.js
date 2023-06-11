@@ -19,7 +19,7 @@ function Register({ serverResWithError, handleRegister, ...props }) {
     }
 
     const handleNewRegister = (name, email, password) => {
-        handleRegister(name, email, password);
+        handleRegister(name, email.toLowerCase(), password);
     };
 
     return (

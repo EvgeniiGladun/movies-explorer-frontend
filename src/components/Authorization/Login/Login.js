@@ -8,7 +8,7 @@ function Login({ serverResWithError, handleLogin, ...props }) {
 
 
     function handleLogins(email, password) {
-        handleLogin(email, password);
+        handleLogin(email.toLowerCase(), password);
     };
 
     function handleSubmit(evt) {
