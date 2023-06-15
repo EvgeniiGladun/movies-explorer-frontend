@@ -15,8 +15,8 @@ export function useForm() {
 }
 
 //хук управления формой и валидации формы
-export function useFormWithValidation() {
-    const [values, setValues] = useState({});
+export function useFormWithValidation(defaultState = {}) {
+    const [values, setValues] = useState(defaultState);
     const [errors, setErrors] = useState({});
     const [isValid, setIsValid] = useState(false);
 

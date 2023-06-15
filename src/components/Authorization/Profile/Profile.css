@@ -105,6 +105,11 @@
   color: rgba(255, 0, 76, 1);
 }
 
+.profile__span-successful_type_profile {
+  color: rgb(0, 197, 59, 1);
+  text-align: center;
+}
+
 .profile__span_type_profile {
   text-align: center;
 }

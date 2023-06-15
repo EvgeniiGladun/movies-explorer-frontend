@@ -1,10 +1,13 @@
-import React from 'react'
+import { userContex } from "../../../contexts/CurrentUserContext";
+
+import { React, useContext } from 'react'
+import { Navigate } from 'react-router-dom';
 import './Register.css';
 import WithForm from '../../WithForm/WithForm';
 import { useFormWithValidation } from '../../Validate/Validate';
 
 function Register({ serverResWithError, handleRegister, ...props }) {
-
+    const currentUser = useContext(userContex);
     const { values, handleChange, errors, isValid } = useFormWithValidation();
 
     // Обработка регистарицй пользователя
@@ -22,7 +25,9 @@ function Register({ serverResWithError, handleRegister, ...props }) {
         handleRegister(name, email.toLowerCase(), password);
     };
 
-    return (
+    if (currentUser) {
+        return <Navigate to="/" />
+    } return (
         <section className='register'>
             <div className='register__container'>
                 <WithForm

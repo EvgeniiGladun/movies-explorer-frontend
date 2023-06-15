@@ -26,29 +26,33 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
 
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isInited, setIsInited] = useState(false);
 
   const [valueHideHeaderAndFooter, setValueHideHeaderAndFooter] =
     useState(false);
   const [preloader, setPreloader] = useState(false);
   const [serverResWithError, setServerResWithError] = useState({});
+  const [waitingResponse, setWaitingResponse] = useState({
+    message: '',
+    boolew: false,
+  });
 
   const [dataUserMovies, setDataUserMovies] = useState([]);
   const [cards, setCards] = useState([]);
 
-  // Проверка JWT ключа в файлах пользвоателя
   useEffect(() => {
-    // Если есть токен, авторизируем
+    // Проверка JWT ключа в файлах пользвоателя
     apiMain
       .getAuthenticationUser()
       .then((res) => {
         if (res) {
+          setCurrentUser(res);
           setLoggedIn(true);
-        }
+        } setIsInited(true);
       })
       .catch((err) => console.log(`Вы не авторизованы, ${err}`));
-  }, []);
 
-  useEffect(() => {
+    // Если есть токен, авторизируем
     if (!loggedIn) {
       return;
     }
@@ -126,15 +130,29 @@ function App() {
   };
 
   const handleNewUserData = (name, email) => {
+    setWaitingResponse({
+      boolew: true,
+    });
     // Отправляем в API новые данные пользователя
     apiMain
       .setInitialUsers(name, email)
       .then((newDataUser) => {
-        return setCurrentUser({
+        setCurrentUser({
           name: newDataUser.name,
           email: newDataUser.email,
         });
-      })
+        setWaitingResponse({
+          message: 'Данные успешно сохраненны',
+        })
+      }).then(() => {
+        setTimeout(() => {
+          setWaitingResponse({
+            message: '',
+            boolew: false,
+          })
+        }, 3500);
+      }
+      )
       .catch((err) => {
         if (err === 409) {
           setServerResWithError({
@@ -210,6 +228,9 @@ function App() {
     localStorage.clear();
   };
 
+  if (!isInited) {
+    return null;
+  }
   return (
     <>
       <userContex.Provider value={currentUser}>
@@ -252,6 +273,7 @@ function App() {
                     btnExitText="Выйти из аккаунта"
                     onLoggedIn={handleLoggedIn}
                     handleNewUserData={handleNewUserData}
+                    waitingResponse={waitingResponse}
                     serverResWithError={serverResWithError}
                   />
                 }

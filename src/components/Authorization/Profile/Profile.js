@@ -1,21 +1,25 @@
 import { userContex } from '../../../contexts/CurrentUserContext';
 
-import { React, useContext } from 'react'
+import { React, useContext, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
 import { useFormWithValidation } from '../../Validate/Validate';
 
-function Profile({ serverResWithError, handleNewUserData, onLoggedIn, ...props }) {
-    const { values, handleChange, errors, isValid } = useFormWithValidation();
+function Profile({ waitingResponse, serverResWithError, handleNewUserData, onLoggedIn, ...props }) {
     const currentUser = useContext(userContex);
+    const { values, handleChange, errors, isValid } = useFormWithValidation({
+        name: currentUser.name ? currentUser.name : '',
+        email: currentUser.email ? currentUser.email : '',
+    });
     const navigate = useNavigate();
+
+    const isChanged = useMemo(() => {
+        return currentUser.name !== values.name || currentUser.email !== values.email
+    }, [currentUser, values.name, values.email])
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        const name = values.name ? values.name : document.getElementById('input-name').value;
-        const email = values.email ? values.email : document.getElementById('input-email').value;
-
-        handleNewUserData(name, email);
+        handleNewUserData(values.name, values.email);
     }
 
     // После выхода отрабатывается функция
@@ -39,11 +43,11 @@ function Profile({ serverResWithError, handleNewUserData, onLoggedIn, ...props }
                             >{errors.name}</span>
                             <div className='profile__form-input__container'>
                                 <label className='profile__form-label'>Имя</label>
-                                <input className='profile__form-input profile__form_user_name' name='name' id='input-name' type='text' placeholder='Ваше имя' onChange={handleChange} defaultValue={currentUser.name} minLength={2} maxLength={30} required />
+                                <input className='profile__form-input profile__form_user_name' name='name' id='input-name' type='text' placeholder='Ваше имя' value={values.name} onChange={handleChange} minLength={2} maxLength={30} required />
                             </div>
                             <div className='profile__form-input__container'>
                                 <label className='profile__form-label'>E-mail</label>
-                                <input className='profile__form-input profile__form_user_email' name='email' id='input-email' type='email' placeholder='Ваша почта' onChange={handleChange} defaultValue={currentUser.email} required />
+                                <input className='profile__form-input profile__form_user_email' name='email' id='input-email' type='email' placeholder='Ваша почта' value={values.email} onChange={handleChange} required />
                             </div>
                             <span className={`profile__span ${!errors ? "" : "profile__span_type_input_error"}`}
                             >{errors.email}</span>
@@ -52,16 +56,17 @@ function Profile({ serverResWithError, handleNewUserData, onLoggedIn, ...props }
 
                     <span
                         className={
-                            `profile__span ${!serverResWithError
-                                ? ""
+                            `profile__span ${!serverResWithError || !waitingResponse.boolew
+                                ? waitingResponse.message
+                                    ? "profile__span-successful_type_profile"
+                                    : ""
                                 : "profile__span_type_profile"}`
                         }
                     >
-                        {serverResWithError.message}
+                        {serverResWithError.message || waitingResponse.message}
                     </span>
-
                     <div className='profile__form-btn__container'>
-                        <button type='submit' disabled={!isValid} className={`profile__btn profile__btn-form ${!isValid
+                        <button type='submit' disabled={waitingResponse.boolew || !isChanged || !isValid} className={`profile__btn profile__btn-form ${waitingResponse.boolew || !isChanged || !isValid
                             ? 'profile__btn-form_disabled'
                             : ''}`}
                         >{props.btnEditText}</button>
