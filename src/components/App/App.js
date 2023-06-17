@@ -208,9 +208,7 @@ function App() {
   }
 
   const handleLoggedIn = (boolew) => {
-    apiMain.getLogout()
-      .then(() => console.log('куки удалил'))
-      .catch((err) => console.log(err));
+    apiMain.getLogout().catch((err) => console.log(err));
     localStorage.clear();
     setLoggedIn(boolew);
     setCurrentUser(null);
