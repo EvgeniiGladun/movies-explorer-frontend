@@ -41,6 +41,7 @@ function App() {
     apiMain
       .getAuthenticationUser()
       .then((res) => {
+        console.log(res)
         if (res) {
           setCurrentUser(res);
           setLoggedIn(true);
@@ -127,7 +128,7 @@ function App() {
 
   const handleNewUserData = (name, email) => {
     // Отправляем в API новые данные пользователя
-    apiMain
+    return apiMain
       .setInitialUsers(name, email)
       .then((newDataUser) => {
         setCurrentUser({
@@ -206,8 +207,9 @@ function App() {
 
   const handleLoggedIn = (boolew) => {
     apiMain.getLogout().catch((err) => console.log(err));
-    setLoggedIn(boolew);
     localStorage.clear();
+    setLoggedIn(boolew);
+    setCurrentUser(null);
   };
 
   if (!isInited) {

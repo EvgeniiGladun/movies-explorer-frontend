@@ -48,7 +48,6 @@ function Profile({ serverResWithError, handleNewUserData, onLoggedIn, ...props }
         localStorage.clear();
         onLoggedIn(false);
         navigate('/');
-
     }
 
     return (
