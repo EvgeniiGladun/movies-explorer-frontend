@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import WithForm from '../../WithForm/WithForm';
 import { useFormWithValidation } from '../../Validate/Validate';
+import { pattern } from '../../../utils/constants';
 
 function Login({ serverResWithError, handleLogin, ...props }) {
     const currentUser = useContext(userContex);
@@ -42,11 +43,11 @@ function Login({ serverResWithError, handleLogin, ...props }) {
                     >
                         <div className='authorization__inputs'>
                             <label className='authorization__label'>E-mail</label>
-                            <input className='authorization__input authorization__input_user_email' value={values.email} onChange={handleChange} type='email' id='user-email' name='email' required />
+                            <input className='authorization__input authorization__input_user_email' value={values.email || ''} onChange={handleChange} pattern={pattern} type='email' id='user-email' name='email' required />
                             <span className={`authorization__span ${!errors ? "" : "authorization__span_type_input_error"}`}
                             >{errors.email}</span>
                             <label className='authorization__label'>Пароль</label>
-                            <input className='authorization__input authorization__input_user_password' value={values.password} onChange={handleChange} type='password' id='user-password' name='password' required />
+                            <input className='authorization__input authorization__input_user_password' value={values.password || ''} onChange={handleChange} type='password' id='user-password' name='password' required />
                             <span className={`authorization__span ${!errors ? "" : "authorization__span_type_input_error"}`}
                             >{errors.password}</span>
                         </div>

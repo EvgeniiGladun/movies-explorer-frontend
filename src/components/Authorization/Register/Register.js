@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 import './Register.css';
 import WithForm from '../../WithForm/WithForm';
 import { useFormWithValidation } from '../../Validate/Validate';
-import { pattern } from '../../../constans';
+import { pattern } from '../../../utils/constants';
 
 function Register({ serverResWithError, handleRegister, ...props }) {
     const currentUser = useContext(userContex);
@@ -15,7 +15,7 @@ function Register({ serverResWithError, handleRegister, ...props }) {
     function handleSubmit(evt) {
         evt.preventDefault();
 
-        if (!values.password || pattern.test(values.email)) {
+        if (!values.password) {
             return;
         }
         const { name, email, password } = values;
@@ -48,17 +48,17 @@ function Register({ serverResWithError, handleRegister, ...props }) {
                     >
                         <div className='register__inputs'>
                             <label className='register__label'>Имя</label>
-                            <input className='register__input register__input_user_name' value={values.name} onChange={handleChange} type='text' id='new-user-name' name='name' minLength={2} maxLength={30} required />
+                            <input className='register__input register__input_user_name' value={values.name || ''} onChange={handleChange} type='text' id='new-user-name' name='name' minLength={2} maxLength={30} required />
                             <span className={`register__span ${!errors ? "" : "register__span_type_input_error"}`}
                             >{errors.name}</span>
 
                             <label className='register__label'>E-mail</label>
-                            <input className='register__input register__input_user_email' value={values.email} onChange={handleChange} type='email' id='new-user-email' name='email' required />
+                            <input className='register__input register__input_user_email' value={values.email || ''} onChange={handleChange} pattern={pattern} type='email' id='new-user-email' name='email' required />
                             <span className={`register__span ${!errors ? "" : "register__span_type_input_error"}`}
                             >{errors.email}</span>
 
                             <label className='register__label'>Пароль</label>
-                            <input className='register__input register__input_user_password' value={values.password} onChange={handleChange} type='password' id='new-user-password' name='password' required />
+                            <input className='register__input register__input_user_password' value={values.password || ''} onChange={handleChange} type='password' id='new-user-password' name='password' required />
                             <span className={`register__span ${!errors ? "" : "register__span_type_input_error"}`}
                             >{errors.password}</span>
                         </div>

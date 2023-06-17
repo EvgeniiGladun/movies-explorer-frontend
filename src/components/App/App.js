@@ -41,14 +41,16 @@ function App() {
     apiMain
       .getAuthenticationUser()
       .then((res) => {
-        console.log(res)
         if (res) {
           setCurrentUser(res);
           setLoggedIn(true);
-        } setIsInited(true);
+        }
       })
+      .finally(() => setIsInited(true))
       .catch((err) => console.log(`Вы не авторизованы, ${err}`));
+  }, []);
 
+  useEffect(() => {
     // Если есть токен, авторизируем
     if (!loggedIn) {
       return;
@@ -206,7 +208,9 @@ function App() {
   }
 
   const handleLoggedIn = (boolew) => {
-    apiMain.getLogout().catch((err) => console.log(err));
+    apiMain.getLogout()
+      .then(() => console.log('куки удалил'))
+      .catch((err) => console.log(err));
     localStorage.clear();
     setLoggedIn(boolew);
     setCurrentUser(null);
