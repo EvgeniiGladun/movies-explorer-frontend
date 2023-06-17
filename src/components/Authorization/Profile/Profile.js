@@ -1,31 +1,52 @@
 import { userContex } from '../../../contexts/CurrentUserContext';
 
-import { React, useContext, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom';
 import './Profile.css';
+import { React, useContext, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useFormWithValidation } from '../../Validate/Validate';
 
-function Profile({ waitingResponse, serverResWithError, handleNewUserData, onLoggedIn, ...props }) {
-    const currentUser = useContext(userContex);
-    const { values, handleChange, errors, isValid } = useFormWithValidation({
-        name: currentUser.name ? currentUser.name : '',
-        email: currentUser.email ? currentUser.email : '',
-    });
+function Profile({ serverResWithError, handleNewUserData, onLoggedIn, ...props }) {
     const navigate = useNavigate();
+    const currentUser = useContext(userContex);
+    const [waitingResponse, setWaitingResponse] = useState({
+        message: '',
+        isDisabled: false,
+    });
+    const { values, handleChange, errors, isValid } = useFormWithValidation({
+        name: currentUser.name,
+        email: currentUser.email,
+    });
 
     const isChanged = useMemo(() => {
         return currentUser.name !== values.name || currentUser.email !== values.email
     }, [currentUser, values.name, values.email])
 
-    function handleSubmit(evt) {
+    async function handleSubmit(evt) {
         evt.preventDefault();
-        handleNewUserData(values.name, values.email);
+
+        try {
+            setWaitingResponse({
+                isDisabled: true,
+            });
+            await handleNewUserData(values.name, values.email);
+            setWaitingResponse({
+                message: 'Данные успешно сохраненны',
+                isDisabled: true,
+            });
+        } finally {
+            setTimeout(() => {
+                setWaitingResponse({
+                    message: '',
+                    isDisabled: false,
+                });
+            }, 3500);
+        }
     }
 
     // После выхода отрабатывается функция
     const outSite = () => {
-        onLoggedIn(false);
         localStorage.clear();
+        onLoggedIn(false);
         navigate('/');
 
     }
@@ -56,7 +77,7 @@ function Profile({ waitingResponse, serverResWithError, handleNewUserData, onLog
 
                     <span
                         className={
-                            `profile__span ${!serverResWithError || !waitingResponse.boolew
+                            `profile__span ${!serverResWithError || waitingResponse.isDisabled
                                 ? waitingResponse.message
                                     ? "profile__span-successful_type_profile"
                                     : ""
@@ -66,7 +87,7 @@ function Profile({ waitingResponse, serverResWithError, handleNewUserData, onLog
                         {serverResWithError.message || waitingResponse.message}
                     </span>
                     <div className='profile__form-btn__container'>
-                        <button type='submit' disabled={waitingResponse.boolew || !isChanged || !isValid} className={`profile__btn profile__btn-form ${waitingResponse.boolew || !isChanged || !isValid
+                        <button type='submit' disabled={waitingResponse.isDisabled || !isChanged || !isValid} className={`profile__btn profile__btn-form ${waitingResponse.isDisabled || !isChanged || !isValid
                             ? 'profile__btn-form_disabled'
                             : ''}`}
                         >{props.btnEditText}</button>

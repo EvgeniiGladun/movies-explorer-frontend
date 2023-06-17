@@ -1,7 +1,7 @@
 import { userContex } from "../../contexts/CurrentUserContext";
 
 import "./App.css";
-import { React, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -32,10 +32,6 @@ function App() {
     useState(false);
   const [preloader, setPreloader] = useState(false);
   const [serverResWithError, setServerResWithError] = useState({});
-  const [waitingResponse, setWaitingResponse] = useState({
-    message: '',
-    boolew: false,
-  });
 
   const [dataUserMovies, setDataUserMovies] = useState([]);
   const [cards, setCards] = useState([]);
@@ -130,9 +126,6 @@ function App() {
   };
 
   const handleNewUserData = (name, email) => {
-    setWaitingResponse({
-      boolew: true,
-    });
     // Отправляем в API новые данные пользователя
     apiMain
       .setInitialUsers(name, email)
@@ -141,18 +134,7 @@ function App() {
           name: newDataUser.name,
           email: newDataUser.email,
         });
-        setWaitingResponse({
-          message: 'Данные успешно сохраненны',
-        })
-      }).then(() => {
-        setTimeout(() => {
-          setWaitingResponse({
-            message: '',
-            boolew: false,
-          })
-        }, 3500);
-      }
-      )
+      })
       .catch((err) => {
         if (err === 409) {
           setServerResWithError({
@@ -273,7 +255,6 @@ function App() {
                     btnExitText="Выйти из аккаунта"
                     onLoggedIn={handleLoggedIn}
                     handleNewUserData={handleNewUserData}
-                    waitingResponse={waitingResponse}
                     serverResWithError={serverResWithError}
                   />
                 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import './Header.css';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import logo from '../../images/logo/logo.svg'
@@ -8,17 +8,17 @@ import Navigation from '../Navigation/Navigation';
 function Header({ loggedIn, ...props }) {
 
     // Получаем текущую ширину страницы
-    const [width, setWidth] = React.useState(window.innerWidth);
+    const [width, setWidth] = useState(window.innerWidth);
     // Заданное значения для отработки рендора страницы
     const breakpoint = 768;
 
-    const [isOpenBurger, setIsOpenBurger] = React.useState(false);
+    const [isOpenBurger, setIsOpenBurger] = useState(false);
     const currentLocation = useLocation().pathname === '/';
-    const [isOpenMainPage, setIsOpenMainPage] = React.useState(true);
+    const [isOpenMainPage, setIsOpenMainPage] = useState(true);
 
 
     // Добавление / удаление вызова функций 
-    React.useEffect(() => {
+    useEffect(() => {
         const handleResizeWindow = () => setWidth(window.innerWidth);
         window.addEventListener('resize', handleResizeWindow);
         return () => {
@@ -26,7 +26,7 @@ function Header({ loggedIn, ...props }) {
         };
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
 
         setIsOpenMainPage(currentLocation);
     }, [currentLocation]);
