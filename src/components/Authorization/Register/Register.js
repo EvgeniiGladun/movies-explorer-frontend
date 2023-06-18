@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 import './Register.css';
 import WithForm from '../../WithForm/WithForm';
 import { useFormWithValidation } from '../../Validate/Validate';
-import { pattern } from '../../../utils/constants';
+const pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
 
 function Register({ serverResWithError, handleRegister, ...props }) {
     const currentUser = useContext(userContex);

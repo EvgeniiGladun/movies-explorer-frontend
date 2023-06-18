@@ -1,5 +1,3 @@
-export const pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
-
 export const cardsTable = document.querySelectorAll('.cards');
 export const shortMovieDuration = 40;
 export const firstMovies = {

@@ -4,7 +4,7 @@ import './Profile.css';
 import { React, useContext, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useFormWithValidation } from '../../Validate/Validate';
-import { pattern } from '../../../utils/constants';
+const pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
 
 function Profile({ serverResWithError, handleNewUserData, onLoggedIn, ...props }) {
     const navigate = useNavigate();
