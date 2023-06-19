@@ -1,3 +1,5 @@
+export const pattern = '[^@]+@[^@]+\.[a-zA-Z]{2,6}';
+
 export const cardsTable = document.querySelectorAll('.cards');
 export const shortMovieDuration = 40;
 export const firstMovies = {

@@ -1,5 +1,5 @@
 import "./SearchForm.css";
-import { React, useState } from "react";
+import { React } from "react";
 import { useLocation } from "react-router-dom";
 import lens from "../../../images/searchform/magnifier.svg";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
