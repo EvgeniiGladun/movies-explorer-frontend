@@ -23,6 +23,10 @@
   padding-bottom: 16px;
 }
 
+.profile__form-list-inputs__container {
+  margin-bottom: 220px;
+}
+
 .profile__form-input__container {
   display: flex;
   justify-content: space-between;
@@ -35,7 +39,6 @@
 .profile__form-input__container:last-of-type {
   border: none;
   padding: 17px 0 0;
-  margin-bottom: 220px;
 }
 
 .profile__form-label {
@@ -58,6 +61,7 @@
 .profile__btn {
   text-decoration: none;
   text-align: center;
+  cursor: pointer;
 
   font-size: 13px;
   line-height: 16px;
@@ -75,6 +79,11 @@
   color: rgba(255, 255, 255, 1);
 }
 
+.profile__btn-form_disabled {
+  cursor: default;
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .profile__btn-form:hover {
   color: rgba(255, 255, 255, 0.8);
 }
@@ -86,6 +95,23 @@
 
 .profile__btn-exit:hover {
   color: rgba(238, 52, 101, 0.8);
+}
+
+.profile__span {
+  font-size: 10px;
+  line-height: 12px;
+  min-height: 25px;
+  padding: 5px 0 5px;
+  color: rgba(255, 0, 76, 1);
+}
+
+.profile__span-successful_type_profile {
+  color: rgb(0, 197, 59, 1);
+  text-align: center;
+}
+
+.profile__span_type_profile {
+  text-align: center;
 }
 
 @media (max-width: 768px) {

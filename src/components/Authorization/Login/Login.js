@@ -1,10 +1,29 @@
-import React from 'react'
+import { userContex } from "../../../contexts/CurrentUserContext";
+
 import './Login.css';
-import WithForm from '../../WithForm/WithForm'
+import { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
+import WithForm from '../../WithForm/WithForm';
+import { useFormWithValidation } from '../../Validate/Validate';
+import { pattern } from "../../../utils/constants";
 
-function Login() {
+function Login({ serverResWithError, handleLogin, ...props }) {
+    const currentUser = useContext(userContex);
+    const { values, handleChange, errors, isValid } = useFormWithValidation();
 
-    return (
+    function handleLogins(email, password) {
+        handleLogin(email.toLowerCase(), password);
+    };
+
+    function handleSubmit(evt) {
+        evt.preventDefault();
+        const { email, password } = values;
+        handleLogins(email, password);
+    }
+
+    if (currentUser) {
+        return <Navigate to="/" />
+    } return (
         <section className='authorization'>
             <div className='authorization__container'>
                 <WithForm
@@ -15,12 +34,42 @@ function Login() {
                     authLinkText='Регистрация'
                     authLink='/signup'
                 >
-                    <div className='authorization__inputs'>
-                        <label className='authorization__label'>E-mail</label>
-                        <input className='authorization__input authorization__input_user_email' type='email' id='user-email' required />
-                        <label className='authorization__label'>Пароль</label>
-                        <input className='authorization__input authorization__input_user_password' type='password' id='user-password' required />
-                    </div>
+
+                    <form
+                        onSubmit={handleSubmit}
+                        className="authorization__form"
+                        action="formEntrance"
+                        name="formEntrance"
+                    >
+                        <div className='authorization__inputs'>
+                            <label className='authorization__label'>E-mail</label>
+                            <input className='authorization__input authorization__input_user_email' value={values.email || ''} onChange={handleChange} pattern={pattern} type='email' id='user-email' name='email' required />
+                            <span className={`authorization__span ${!errors ? "" : "authorization__span_type_input_error"}`}
+                            >{errors.email}</span>
+                            <label className='authorization__label'>Пароль</label>
+                            <input className='authorization__input authorization__input_user_password' value={values.password || ''} onChange={handleChange} type='password' id='user-password' name='password' required />
+                            <span className={`authorization__span ${!errors ? "" : "authorization__span_type_input_error"}`}
+                            >{errors.password}</span>
+                        </div>
+
+                        <span
+                            className={
+                                `authorization__span ${!serverResWithError
+                                    ? ""
+                                    : "authorization__span_type_login"}`
+                            }
+                        >
+                            {serverResWithError.message}
+                        </span>
+                        <button
+                            className={`authorization__form-btn-sends-authorization ${isValid ? "authorization__form-btn-sends-authorization_active" : ""}`}
+                            disabled={!isValid}
+                            type='submit'
+
+                        >
+                            Войти
+                        </button>
+                    </form>
                 </WithForm>
             </div>
         </section>

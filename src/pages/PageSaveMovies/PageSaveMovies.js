@@ -1,34 +1,58 @@
-import React from 'react'
-import Layout from '../../components/Layout/Layout'
+import { React, useState, useCallback, useMemo } from "react";
+import Layout from "../../components/Layout/Layout";
+import MoviesCard from "../../components/Movies/MoviesCard/MoviesCard";
 
-function PageSaveMovies() {
+function PageSaveMovies(props) {
+    const [filterString, setFilterString] = useState("");
+    const [searchValue, setSearchValue] = useState("");
+    const [showShortOnly, setShowShortOnly] = useState(false);
+
+    const filteredMovies = useMemo(() => {
+        return props.dataUserMovies.filter((movie) => {
+            if (showShortOnly && movie.duration > 40) {
+                return false;
+            }
+            return (
+                movie.nameRU.toLowerCase().includes(filterString) ||
+                movie.nameEN.toLowerCase().includes(filterString)
+            );
+        });
+    }, [props.dataUserMovies, filterString, showShortOnly]);
+
+    const handleSearch = useCallback((query) => {
+        setFilterString(query);
+    }, []);
 
     return (
         <>
-            <Layout>
-                <div className='card'>
-                    <img className='card__afisha' src='https://cdn.ananasposter.ru/image/cache/catalog/poster/film/82/13033-1000x830.jpg' alt='Афиша фильма' />
-                    <div className='card__discription'>
-                        <h3 className='card__title'>Fast And Furious Movie</h3>
-                        <button onClick={() => { console.log('Запрос на удлаение отправлен') }} className='card__delete-btn'>
-                            <span className='card__delete-cross'>+</span>
-                        </button>
-                    </div>
-                    <span className='card__duration-film'>2ч 42м</span>
-                </div>
-                <div className='card'>
-                    <img className='card__afisha' src='https://cdn.ananasposter.ru/image/cache/catalog/poster/film/82/13033-1000x830.jpg' alt='Афиша фильма' />
-                    <div className='card__discription'>
-                        <h3 className='card__title'>Fast And Furious Movie</h3>
-                        <button onClick={() => { console.log('Запрос на удлаение отправлен') }} className='card__delete-btn'>
-                            <span className='card__delete-cross'>+</span>
-                        </button>
-                    </div>
-                    <span className='card__duration-film'>2ч 42м</span>
-                </div>
-            </ Layout>
+            <Layout
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+                preloader={props.preloader}
+                dataUserMovies={filteredMovies}
+                getErrorMovies={props.getErrorMovies}
+                showBlockErr={props.showBlockErr}
+                usersSearchRequest={handleSearch}
+                showBlockCards={props.showBlockCards}
+                showShortOnly={showShortOnly}
+                setShowShortOnly={setShowShortOnly}
+            >
+                {filteredMovies.map((movie) => {
+                    return (
+                        <MoviesCard
+                            movie={movie}
+                            hendlerMoviesLike={props.hendlerMoviesLike}
+                            handleAddPlaceSubmit={props.handleAddPlaceSubmit}
+                            hendlerMoviesDelete={props.hendlerMoviesDelete}
+                            dataUserMovies={props.dataUserMovies}
+                            key={movie._id}
+                            {...movie}
+                        />
+                    );
+                }) ?? []}
+            </Layout>
         </>
-    )
+    );
 }
 
-export default PageSaveMovies
+export default PageSaveMovies;

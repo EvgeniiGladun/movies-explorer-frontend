@@ -1,24 +1,24 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import './Header.css';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import logo from '../../images/logo/logo.svg'
 import avatar from '../../images/profile/profile-icon.svg';
 import Navigation from '../Navigation/Navigation';
 
-function Header() {
+function Header({ loggedIn, ...props }) {
 
     // Получаем текущую ширину страницы
-    const [width, setWidth] = React.useState(window.innerWidth);
+    const [width, setWidth] = useState(window.innerWidth);
     // Заданное значения для отработки рендора страницы
     const breakpoint = 768;
 
-    const [isOpenBurger, setIsOpenBurger] = React.useState(false);
+    const [isOpenBurger, setIsOpenBurger] = useState(false);
     const currentLocation = useLocation().pathname === '/';
-    const [isOpenMainPage, setIsOpenMainPage] = React.useState(true);
+    const [isOpenMainPage, setIsOpenMainPage] = useState(true);
 
 
     // Добавление / удаление вызова функций 
-    React.useEffect(() => {
+    useEffect(() => {
         const handleResizeWindow = () => setWidth(window.innerWidth);
         window.addEventListener('resize', handleResizeWindow);
         return () => {
@@ -26,12 +26,31 @@ function Header() {
         };
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
 
         setIsOpenMainPage(currentLocation);
     }, [currentLocation]);
 
-    return currentLocation ? (
+    return currentLocation ? loggedIn ? (
+        <header className={`header ${currentLocation && isOpenMainPage ? 'header_color_grey' : ''}`}>
+            <div className='header__container'>
+                <div className='header__menu__container'>
+                    <Link to='/'><img className='header__logo' src={logo} alt='Логотип' /></Link>
+                    <nav className='header__menu-movies'>
+                        <NavLink to='pagemovies' className='header__link header__link-movies'>Фильмы</NavLink>
+                        <NavLink to='pagesavemovies' className='header__link'>Сохранённые фильмы</NavLink>
+                    </nav>
+                </div>
+
+                <nav className='header__menu-profile'>
+                    <NavLink to='profile' className='header__link header__link-profile'>Аккаунт</NavLink>
+                    <div className='header__profile__container'>
+                        <img className='header__profile__avatar' src={avatar} alt='Аватар профиля' />
+                    </div>
+                </nav>
+            </div>
+        </header>
+    ) : (
         <header className={`header ${currentLocation && isOpenMainPage ? 'header_color_grey' : ''}`}>
             <div className='header__container'>
 

@@ -52,7 +52,7 @@
 
 .navigation__menu-profile {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .navigation__profile__container {

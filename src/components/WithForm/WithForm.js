@@ -5,11 +5,6 @@ import logo from '../../images/logo/logo.svg';
 
 function WithForm(props) {
 
-    const submitForm = (evt) => {
-        evt.preventDefault();
-        alert('Форма отправлена')
-    }
-
     return (
         <section
             className={`form form-${props.className}`}
@@ -22,18 +17,10 @@ function WithForm(props) {
                     <h2 className='form__greeting'>{props.title}</h2>
                 </div>
 
-                <form onSubmit={submitForm} className='form__content'>
-                    {props.children}
-                    <button
-                        className={`form__btn-sends form__btn-sends-${props.className}`}
-                        type='submit'
-                    >
-                        {props.buttonText}
-                    </button>
-                </form>
+                {props.children}
                 <h4 className='form__authorization'>{props.authText}<Link className='form__authorization-link' to={props.authLink}>{` ${props.authLinkText}`}</Link></h4>
             </div>
-        </section>
+        </section >
     );
 }
 
