@@ -10,10 +10,9 @@ function AboutMe() {
 
                 <div className='aboutme__info'>
                     <div className='aboutme__biography'>
-                        <h2 className='aboutme__biography-name'>Виталий</h2>
-                        <h3 className='aboutme__biography-specialization'>Фронтенд-разработчик, 30 лет</h3>
-                        <p className='aboutme__biography-description'>Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена
-                            и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.</p>
+                        <h2 className='aboutme__biography-name'>Евгений</h2>
+                        <h3 className='aboutme__biography-specialization'>Фронтенд-разработчик, 25 лет</h3>
+                        <p className='aboutme__biography-description'>Я живу в Екатеринбурге, закончил обучение Фронтенд-разработчика. Я люблю слушать музыку, а ещё увлекаюсь силовым видом спорта. 1.5 года уже занимаюсь разработкой проектов. С 2018 года работал в компании Связной дежурным инженером, потом перешёл в компанию <span className='aboutme__biography-description_text_green'>OnlinePBX</span>. После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами.</p>
                         <a href='https://github.com/EvgeniiGladun' className='aboutme__biography-link' target='_blank' rel='noreferrer'>Github</a>
                     </div>
                     <img className='aboutme__biography-photo' src={userPhoto} alt='Фотография' />
