@@ -42,7 +42,11 @@
   line-height: 50px;
 }
 
-.portfolio-links__text_color {
+.portfolio-links__span {
+  text-align: center;
+}
+
+.portfolio-links__span_color {
   color: rgba(255, 0, 0, 1);
 }
 
@@ -75,6 +79,10 @@
 
   .portfolio-links__link {
     font-size: 28px;
+  }
+
+  .portfolio-links__span {
+    font-size: 14px;
   }
 }
 

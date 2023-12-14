@@ -18,7 +18,7 @@ function Portfolio() {
                         </li>
                         <li className='portfolio-links__item'>
                             <a href='https://photograms.nomoredomainsclub.ru/' className='portfolio-links__link portfolio-links__link_disabled' target='_blank' rel='noreferrer'>Одностраничное приложение</a>
-                            <text className='portfolio-links__text portfolio-links__text_color'>* временно не работает</text>
+                            <span className='portfolio-links__span portfolio-links__span_color'>* временно не работает</span>
                             <h4 className='portfolio-links__link-arrow portfolio-links__link-arrow_disabled'>&#8599;</h4>
                         </li>
                     </ul>
