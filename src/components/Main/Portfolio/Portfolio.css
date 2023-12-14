@@ -42,6 +42,10 @@
   line-height: 50px;
 }
 
+.portfolio-links__text_color {
+  color: rgba(255, 0, 0, 1);
+}
+
 .portfolio-links__link-arrow {
   margin: 0;
   text-align: center;
@@ -52,6 +56,16 @@
 
 .portfolio-links__link:hover {
   color: rgba(255, 255, 255, 0.8);
+}
+
+.portfolio-links__link_disabled {
+  color: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  cursor: default;
+}
+
+.portfolio-links__link-arrow_disabled {
+  color: rgba(255, 255, 255, 0.2);
 }
 
 @media (max-width: 768px) {
