@@ -17,8 +17,9 @@ function Portfolio() {
                             <h4 className='portfolio-links__link-arrow'>&#8599;</h4>
                         </li>
                         <li className='portfolio-links__item'>
-                            <a href='https://photograms.nomoredomainsclub.ru/' className='portfolio-links__link' target='_blank' rel='noreferrer'>Одностраничное приложение</a>
-                            <h4 className='portfolio-links__link-arrow'>&#8599;</h4>
+                            <a href='https://photograms.nomoredomainsclub.ru/' className='portfolio-links__link portfolio-links__link_disabled' target='_blank' rel='noreferrer'>Одностраничное приложение</a>
+                            <span className='portfolio-links__span portfolio-links__span_color'>* временно не работает</span>
+                            <h4 className='portfolio-links__link-arrow portfolio-links__link-arrow_disabled'>&#8599;</h4>
                         </li>
                     </ul>
                 </div>
