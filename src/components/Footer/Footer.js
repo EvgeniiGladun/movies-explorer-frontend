@@ -3,13 +3,15 @@ import './Footer.css';
 
 function Footer() {
 
+    const currentYear = new Date().getFullYear();
+
     return (
         <footer className='footer'>
             <div className='footer__container'>
                 <h4 className='footer__discription'>Учебный проект Яндекс.Практикум х BeatFilm.</h4>
                 <div className='footer__info'>
                     <div className='footer__discriptions footer__discriptions_content_copyright'>
-                        <p className='footer__discriptions-years'>&copy; 2023</p>
+                        <p className='footer__discriptions-years'>&copy; {currentYear}</p>
                     </div>
                     <ul className='footer__discription-items'>
                         <li className='footer__discription-item'>
